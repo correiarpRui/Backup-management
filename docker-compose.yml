@@ -1,0 +1,37 @@
+version: "2.1"
+networks:
+    minionetwork:
+        driver: bridge
+services:
+    duplicati:
+        image: lscr.io/linuxserver/duplicati:latest
+        container_name: duplicati
+        environment:
+            #- PUID=502
+            #- PGID=20
+            - TZ=Etc/UTC
+            - CLI_ARGS= #optional
+        volumes:
+            - ./config:/config
+            - ./backups:/backups
+            - ./data-backedup:/data-backedup
+            - ./:/source
+        ports:
+            - 8200:8200
+        networks:
+            - minionetwork
+        restart: unless-stopped
+
+    minio:
+        image: docker.io/bitnami/minio:latest
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        networks:
+            - minionetwork
+        volumes:
+            - "./minio_data:/data"
+        environment:
+            - MINIO_ROOT_USER=root
+            - MINIO_ROOT_PASSWORD=password
+            - MINIO_DEFAULT_BUCKETS=testbucket
