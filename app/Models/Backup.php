@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Backup extends Model
@@ -14,7 +15,7 @@ class Backup extends Model
         'allowdDays'=>'array'
     ];
 
-    public function client(){
+    public function client():BelongsTo{
         return $this->belongsTo(Client::class);
     }
 

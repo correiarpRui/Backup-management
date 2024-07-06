@@ -34,7 +34,11 @@ class BackupController extends Controller
     }
 
     public function store(Request $request){
-        $backup = new Backup();
+
+        $backup = new Backup([
+            'user_id'=>auth()->id(),
+            //validar request 
+        ]);
         $backup->user_id = auth()->user()->id;
         $backup->token = Str::random(16);
         $backup->name = $request->name;
@@ -48,16 +52,20 @@ class BackupController extends Controller
          
         $backup->repeat = $request->repeat . $request->units;
 
-        $allowedDays = array($request->monday, $request->tuesday, $request->wednesday, $request->thursday, $request->friday, $request->saturday, $request->sunday);
+        //check if true or false or null
+        $allowedDays = [$request->monday, $request->tuesday, $request->wednesday, $request->thursday, $request->friday, $request->saturday, $request->sunday];
 
         $backup->allowdDays = array_values(array_filter($allowedDays, function ($element){
             return $element !== null;
         }));
         
         $backup->save();
-        return (redirect('/admin/backups'));
+        return redirect('/admin/backups');
     }
 
+    // service
+    //automatico em save
+    // link download do ficheiro 
     public function generate($id){
 
         $user = User::find(auth()->user()->id);
