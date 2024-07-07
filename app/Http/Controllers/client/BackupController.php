@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Backup;
 use App\Models\Client;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,15 +17,11 @@ class BackupController extends Controller
     public function index(){
 
         
-        $backups= Client::with(['user', 'backups.reports'])
+        $backups= Client::with(['user', 'backups'])
         ->whereHas('user', function($q){
             $q->where('user_id', auth()->id());})
         ->get();
 
-       
-        // dd($backups[0]->backups[0]);
-        
-        // $backups = Backup::where('user_id', '=', auth()->user()->id)->get();
         return view('client.backup.index', ['backups'=>$backups]);
     }
 
