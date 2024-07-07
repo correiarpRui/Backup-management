@@ -21,17 +21,17 @@ class ClientController extends Controller
         return (view('admin.client.create'));
     }
 
-    public function store(){
+    public function store(Request $request){
 
-        $clients = new Client();
-        $clients->name = request('name');
-        $clients->address = request('address');
-        $clients->contact = request('contact');
-        $clients->email = request('email');
-        $clients->user_id = auth()->user()->id;
-        $clients->save();
-
+        $clients = new Client([
+            'name'=>$request->name,
+            'address'=>$request->address,
+            'contact'=>$request->contact,
+            'email'=>$request->email,
+            'user_id'=>auth()->id(),
+        ]);
         
+        $clients->save();
 
         return redirect('/admin/clients');
     }

@@ -11,6 +11,20 @@ class Backup extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'token',
+        'name',
+        'client_id',
+        'description',
+        'encryption',
+        'passphrase',
+        'time',
+        'repeat',
+        'allowdDays',
+    ];
+
+
     protected $casts = [
         'allowdDays'=>'array'
     ];

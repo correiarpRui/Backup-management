@@ -35,30 +35,30 @@ class BackupController extends Controller
 
     public function store(Request $request){
 
-        $backup = new Backup([
-            'user_id'=>auth()->id(),
-            //validar request 
-        ]);
-        $backup->user_id = auth()->user()->id;
-        $backup->token = Str::random(16);
-        $backup->name = $request->name;
-        $backup->client_id = $request->client;
-        $backup->description = $request->description;
-        $backup->encryption = $request->encryption;
-        $backup->passphrase = $request->passphrase;
-        
         $date = Carbon::parse($request->date . $request->time)->format('Y-m-d H:i');
-        $backup->time = $date;
-         
-        $backup->repeat = $request->repeat . $request->units;
 
-        //check if true or false or null
+         //no value -> selected = null / no value -> not selected = null / value -> selected = value / value -> not selected = null
         $allowedDays = [$request->monday, $request->tuesday, $request->wednesday, $request->thursday, $request->friday, $request->saturday, $request->sunday];
 
-        $backup->allowdDays = array_values(array_filter($allowedDays, function ($element){
+        $filterAllowedDays = array_values(array_filter($allowedDays, function ($element){
             return $element !== null;
         }));
+
+        $backup = new Backup([
+            'user_id'=>auth()->user()->id,
+            'token'=>Str::random(16),
+            'name'=>$request->name,
+            'client_id'=> $request->client,
+            'description'=>$request->description,
+            'encryption'=>$request->encryption,
+            'passphrase'=>$request->passphrase,
+            'time'=>$date,
+            'repeat'=>$request->repeat . $request->units,
+            'allowdDays' => $filterAllowedDays,
+        ]);
+        //validar request 
         
+        dd($backup);
         $backup->save();
         return redirect('/admin/backups');
     }
