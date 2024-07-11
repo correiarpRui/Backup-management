@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('passphrase');
             $table->timestamp('time');
             $table->integer('repeat');      
-            $table->string('allowdDays');
+            $table->string('allowedDays');
         });
     }
 

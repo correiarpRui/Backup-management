@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBackupRequest;
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
 use App\Models\User;
@@ -33,16 +34,11 @@ class BackupController extends Controller
         return redirect('/admin/backups');
     }
 
-    public function store(Request $request){
+    public function store(StoreBackupRequest $request){
+
+        $validated = $request->validated(); // array of validated values | custom validation
 
         $date = Carbon::parse($request->date . $request->time)->format('Y-m-d H:i');
-
-         //no value -> selected = null / no value -> not selected = null / value -> selected = value / value -> not selected = null
-        $allowedDays = [$request->monday, $request->tuesday, $request->wednesday, $request->thursday, $request->friday, $request->saturday, $request->sunday];
-
-        $filterAllowedDays = array_values(array_filter($allowedDays, function ($element){
-            return $element !== null;
-        }));
 
         $backup = new Backup([
             'user_id'=>auth()->user()->id,
@@ -54,11 +50,10 @@ class BackupController extends Controller
             'passphrase'=>$request->passphrase,
             'time'=>$date,
             'repeat'=>$request->repeat . $request->units,
-            'allowdDays' => $filterAllowedDays,
+            'allowdDays' => $request->allowedDays, // fix allowedDays
         ]);
-        //validar request 
         
-        dd($backup);
+        
         $backup->save();
         return redirect('/admin/backups');
     }
