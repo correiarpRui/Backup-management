@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('backups', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('token')->unique();
             $table->timestamps();
             $table->string('name');

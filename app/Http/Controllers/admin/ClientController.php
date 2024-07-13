@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreClientRequest;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,16 +22,13 @@ class ClientController extends Controller
         return (view('admin.client.create'));
     }
 
-    public function store(Request $request){
+    public function store(StoreClientRequest $request){
 
-        $clients = new Client([
-            'name'=>$request->name,
-            'address'=>$request->address,
-            'contact'=>$request->contact,
-            'email'=>$request->email,
-            'user_id'=>auth()->id(),
-        ]);
-        
+        $validated = $request->validated();
+
+        $clients = new Client($validated);
+        $clients->user_id = auth()->id();
+
         $clients->save();
 
         return redirect('/admin/clients');

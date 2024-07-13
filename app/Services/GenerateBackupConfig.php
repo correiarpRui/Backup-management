@@ -17,7 +17,7 @@ class GenerateBackupConfig
         "Schedule"=> [
             'Time'=>$backup->time,
             'Repeat'=>$backup->repeat,
-            'AllowedDays'=>$backup->allowdDays,
+            'AllowedDays'=>$backup->allowedDays,
         ],
         "Backup"=>[
             'Name'=>$backup->name,

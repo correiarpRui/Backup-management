@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -18,12 +19,11 @@ class UserController extends Controller
         return view('admin.users.create');
     }
 
-    public function store(Request $request){
+    public function store(StoreUserRequest $request){
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
+        $validated = $request->validated();
+
+        $user = new User($validated);
         $user->save();        
 
         return redirect('/admin/clients');

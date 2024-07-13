@@ -15,14 +15,14 @@
                     <p>{{ $backup->encryption }}</p>
                     <p>{{ $backup->time }}</p>
                     <p>{{ $backup->repeat }}</p>
-                    @foreach ($backup->allowdDays as $day)
+                    @foreach ($backup->allowedDays as $day)
                         <p>{{ $day }}</p>
                     @endforeach
-                    <a href="/admin/backups/{{ $backup->id }}">Generate</a>
+                    <a class="text-bblue font-semibold" href="/admin/backups/download/{{ $backup->id }}">Download</a>
                     <form action="/admin/backups/{{ $backup->id }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <input type="submit" value="Delete" class="text-bred">
+                        <input type="submit" value="Delete" class="text-bred font-semibold">
                     </form>
 
                 </div>

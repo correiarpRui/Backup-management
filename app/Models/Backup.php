@@ -21,12 +21,12 @@ class Backup extends Model
         'passphrase',
         'time',
         'repeat',
-        'allowdDays',
+        'allowedDays',
     ];
 
 
     protected $casts = [
-        'allowdDays'=>'array'
+        'allowedDays'=>'array'
     ];
 
     public function client():BelongsTo{

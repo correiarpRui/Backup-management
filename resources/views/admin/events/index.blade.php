@@ -3,8 +3,7 @@
 @section('content')
     <div>
         <div class="text-bblue text-3xl mx-5 my-3 font-normal ">Events</div>
-        <a href="/admin/backups/create" class=" bg-bblue text-white mx-5 my-3 p-3 rounded-md w-auto inline-block">Create
-            Event</a>
+
         @foreach ($data as $item)
             <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3">
                 <p class="text-2xl text-bblue">{{ $item->name }}</p>

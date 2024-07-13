@@ -37,7 +37,7 @@ Route::group([
   Route::get('/backups/create', [AdminBackupController::class, 'create']);
   Route::delete('/backups/{id}', [AdminBackupController::class, 'destroy']);
   Route::post('/backups', [AdminBackupController::class, 'store']);
-  Route::get('/backups/{id}', [AdminBackupController::class, 'download']);
+  Route::get('/backups/download/{id}', [AdminBackupController::class, 'download']);
 
   Route::get('/users', [AdminUserController::class, 'index']);
   Route::get('/users/create', [AdminUserController::class, 'create']);
@@ -57,10 +57,7 @@ Route::group([
   'middleware'=>['auth']
 ], function(){
   Route::get('/backups', [ClientBackupController::class, 'index'])->name('backups');
-  Route::get('/backups/create', [ClientBackupController::class, 'create']);
-  Route::delete('/backups/{id}', [ClientBackupController::class, 'destroy']);
-  Route::post('/backups', [ClientBackupController::class, 'store']);
-  Route::get('/backups/{id}', [ClientBackupController::class, 'generate']);
+  Route::get('/backups/download/{id}', [ClientBackupController::class, 'download']);
 
   Route::get('/users', [ClientUserController::class, 'index']);
   Route::get('/user', [ClientUserController::class, 'show']);
