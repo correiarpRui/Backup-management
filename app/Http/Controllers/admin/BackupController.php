@@ -4,11 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBackupRequest;
-use Illuminate\Http\Request;
 use Aws\S3\S3Client;
 use App\Models\User;
 use App\Models\Backup;
 use App\Models\Client;
+use App\Services\GenerateBackupConfig;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -41,7 +41,7 @@ class BackupController extends Controller
         $date = Carbon::parse($request->date . $request->time)->format('Y-m-d H:i');
 
         $backup = new Backup([
-            'user_id'=>auth()->user()->id,
+            'user_id'=>auth()->user()->id, //remove
             'token'=>Str::random(16),
             'name'=>$request->name,
             'client_id'=> $request->client,
@@ -53,70 +53,84 @@ class BackupController extends Controller
             'allowdDays' => $request->allowedDays, // fix allowedDays
         ]);
         
-        
         $backup->save();
+
+        //service - Generate Backup
+        (new GenerateBackupConfig)->generateBackup($backup);
+        
+        
         return redirect('/admin/backups');
+    }
+
+    public function download($id){
+        
+        $backup = Backup::findOrFail($id);
+        $filepath = public_path("{$backup->token}");
+        return response()->download($filepath);
+
     }
 
     // service
     //automatico em save
     // link download do ficheiro 
-    public function generate($id){
 
-        $user = User::find(auth()->user()->id);
-        $backup = Backup::find($id);
+    // public function generate($id){
 
-        $bucket = strtolower(str_replace(' ', '', $backup->name));
+    //     $user = User::find(auth()->user()->id);
+    //     $backup = Backup::find($id);
 
-        $data = [
-            "Schedule"=> [
-                'Time'=>$backup->time,
-                'Repeat'=>$backup->repeat,
-                'AllowedDays'=>$backup->allowdDays,
-            ],
-            "Backup"=>[
-                'Name'=>$backup->name,
-                'Description'=>$backup->description,
-                'TargetURL'=> "s3://{$bucket}/?s3-server-name=minio%3A9000&s3-location-constraint=&s3-storage-class=&s3-client=aws&auth-username={$user->access_key}&auth-password={$user->secret_key}",
-                'Settings'=>[
-                    ['Name'=>'encryption-module',
-                        "Value"=> $backup->encryption
-                    ],
-                    ['Name'=>'dblock-size',
-                        "Value"=>"50mb"
-                    ],
-                    ['Name'=>'passphrase',
-                        "Value"=> $backup->passphrase
-                    ],
-                    ['Name'=>'--send-http-url',
-                        "Value"=> "http://host.docker.internal:8000/api/data/{$backup->token}/{$backup->id}"
-                    ],
-                    ['Name'=>'--send-http-result-output-format',
-                        "Value"=> 'Json'
-                    ]
-                ]
-            ]
-        ];
+    //     $bucket = strtolower(str_replace(' ', '', $backup->name));
 
-        $s3client = new S3Client([
-            'version' => '2006-03-01',
-            'region' => 'us-east-1',
-            'use_path_style_endpoint' => true,
-            'endpoint'=>'http://localhost:9000',
-            'credentials'=> [
-                'key'=> $user->access_key,
-                'secret'=> $user->secret_key,
-            ]
-        ]);
+    //     $data = [
+    //         "Schedule"=> [
+    //             'Time'=>$backup->time,
+    //             'Repeat'=>$backup->repeat,
+    //             'AllowedDays'=>$backup->allowdDays,
+    //         ],
+    //         "Backup"=>[
+    //             'Name'=>$backup->name,
+    //             'Description'=>$backup->description,
+    //             'TargetURL'=> "s3://{$bucket}/?s3-server-name=minio%3A9000&s3-location-constraint=&s3-storage-class=&s3-client=aws&auth-username={$user->access_key}&auth-password={$user->secret_key}",
+    //             'Settings'=>[
+    //                 ['Name'=>'encryption-module',
+    //                     "Value"=> $backup->encryption
+    //                 ],
+    //                 ['Name'=>'dblock-size',
+    //                     "Value"=>"50mb"
+    //                 ],
+    //                 ['Name'=>'passphrase',
+    //                     "Value"=> $backup->passphrase
+    //                 ],
+    //                 ['Name'=>'--send-http-url',
+    //                     "Value"=> "http://host.docker.internal:8000/api/data/{$backup->token}/{$backup->id}"
+    //                 ],
+    //                 ['Name'=>'--send-http-result-output-format',
+    //                     "Value"=> 'Json'
+    //                 ]
+    //             ]
+    //         ]
+    //     ];
+
+    //     $s3client = new S3Client([
+    //         'version' => '2006-03-01',
+    //         'region' => 'us-east-1',
+    //         'use_path_style_endpoint' => true,
+    //         'endpoint'=>'http://localhost:9000',
+    //         'credentials'=> [
+    //             'key'=> $user->access_key,
+    //             'secret'=> $user->secret_key,
+    //         ]
+    //     ]);
        
-        $s3client->createBucket(['Bucket'=>$bucket]);
+    //     $s3client->createBucket(['Bucket'=>$bucket]);
         
-        config(['filesystems.disks.s3.key' => $user->access_key]);
-        config(['filesystems.disks.s3.secret' => $user->secret_key]);
+    //     config(['filesystems.disks.s3.key' => $user->access_key]);
+    //     config(['filesystems.disks.s3.secret' => $user->secret_key]);
        
-        Storage::disk('public')->put("backup.json", json_encode($data));
-        Storage::disk('s3')->put("backup{$backup->name}.json", json_encode($data));
+    //     Storage::disk('public')->put("backup.json", json_encode($data));
+
+    //     Storage::disk('s3')->put("backup{$backup->name}.json", json_encode($data));
         
-        return redirect('/admin/backups');
-    }
+    //     return redirect('/admin/backups');
+    // }
 }

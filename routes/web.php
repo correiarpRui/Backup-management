@@ -37,7 +37,7 @@ Route::group([
   Route::get('/backups/create', [AdminBackupController::class, 'create']);
   Route::delete('/backups/{id}', [AdminBackupController::class, 'destroy']);
   Route::post('/backups', [AdminBackupController::class, 'store']);
-  Route::get('/backups/{id}', [AdminBackupController::class, 'generate']);
+  Route::get('/backups/{id}', [AdminBackupController::class, 'download']);
 
   Route::get('/users', [AdminUserController::class, 'index']);
   Route::get('/users/create', [AdminUserController::class, 'create']);

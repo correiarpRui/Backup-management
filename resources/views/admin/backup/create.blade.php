@@ -7,15 +7,6 @@
         <form action="/admin/backups" method="POST" class="flex flex-col gap-2">
             @csrf
 
-            @if ($errors->any())
-                {
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                }
-            @endif
-
-
             <div class="font-semibold text-xl text-bblue mb-0 mt-4">General Settings</div>
             <hr class="border-bblue border-2">
 
