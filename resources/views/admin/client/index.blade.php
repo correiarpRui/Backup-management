@@ -3,37 +3,43 @@
 @section('content')
     <div>
         <div class="text-bblue text-3xl mx-5 my-3 font-normal ">Clients</div>
-        <a href="/admin/clients/create" class=" bg-bblue text-white mx-5 my-3 p-3 rounded-md w-auto inline-block">Create
+        <a href="{{ route('admin.clients.create') }}"
+            class=" bg-bblue text-white mx-5 my-3 p-3 rounded-md w-auto inline-block">Create
             Client</a>
         <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex gap-2 flex-col">
-            @foreach ($clients as $client)
-                <div class="flex gap-4">
-                    <p>{{ $client->name }}</p>
-                    <p>{{ $client->address }}</p>
-                    <p>{{ $client->contact }}</p>
-                    <p>{{ $client->email }}</p>
-                    <form action="/admin/clients/{{ $client->id }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="Delete" class="text-bred">
-                    </form>
-                    <form action="/admin/clients/{{ $client->id }}" method="POST">
-                        @csrf
-
-                        <select name="users" id="users" class="border-2 rounded-md focus:outline-none p-2 mb-2">
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-
-                        <input type="submit" value="Add User" class="text-bblue">
-                    </form>
-                    @foreach ($client->user as $user)
-                        <p>{{ $user->name }}</p>
+            <table class="border-collapse m-4">
+                <thead>
+                    <tr class="font-semibold text-bblue border-b-2 border-bblue">
+                        <td class="p-2">Name</td>
+                        <td class="p-2">Address</td>
+                        <td class="p-2">Contact</td>
+                        <td class="p-2">Email</td>
+                        <td class="p-2">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($clients as $client)
+                        <tr class="even:bg-blgray">
+                            <td class="p-2">{{ $client->name }}</td>
+                            <td class="p-2">{{ $client->address }}</td>
+                            <td class="p-2">{{ $client->contact }}</td>
+                            <td class="p-2">{{ $client->email }}</td>
+                            <td class="p-2">
+                                <div class="flex gap-2">
+                                    <a href="{{ route('admin.clients.show', $client->id) }}">View</a>
+                                    <a href="{{ route('admin.clients.update', $client->id) }}">Edit</a>
+                                    <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="Delete" class="text-bred">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
+                </tbody>
+            </table>
 
-                </div>
-            @endforeach
         </div>
     </div>
 @endsection

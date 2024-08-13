@@ -25,13 +25,12 @@ Route::group([
   'middleware'=>['auth', 'admin']
 ], function(){
   Route::get('/clients', [ClientController::class, 'index'])->name('clients');
-  Route::get('/clients/create', [ClientController::class, 'create']);
-  Route::delete('/clients/{id}', [ClientController::class, 'destroy']);
-  Route::post('/clients', [ClientController::class, 'store']);
-
-  // test
-  Route::post('/clients/{id}', [ClientController::class, 'addUsers']);
-  // test
+  Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
+  Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+  Route::get('/clients/show/{id}', [ClientController::class, 'show'])->name('clients.show');
+  Route::get('/clients/update/{id}', [ClientController::class, 'update'])->name('clients.update');
+  Route::patch('/clients/{id}', [ClientController::class, 'patch'])->name('clients.patch');
+  Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
 
   Route::get('/backups', [AdminBackupController::class, 'index']);
   Route::get('/backups/create', [AdminBackupController::class, 'create']);
