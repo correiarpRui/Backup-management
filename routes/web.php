@@ -38,12 +38,13 @@ Route::group([
   Route::post('/backups', [AdminBackupController::class, 'store']);
   Route::get('/backups/download/{id}', [AdminBackupController::class, 'download']);
 
-  Route::get('/users', [AdminUserController::class, 'index']);
-  Route::get('/users/create', [AdminUserController::class, 'create']);
-  Route::post('/users', [AdminUserController::class, 'store']);
-  Route::get('/user', [AdminUserController::class, 'show']);
-  Route::get('/user/update', [AdminUserController::class, 'update']);
-  Route::patch('/user', [AdminUserController::class, 'patch']);
+  Route::get('/users', [AdminUserController::class, 'index'])->name('users');
+  Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
+  Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+  Route::get('/user', [AdminUserController::class, 'show'])->name('users.show');
+  Route::get('/user/update', [AdminUserController::class, 'update'])->name('users.update');
+  Route::patch('/user', [AdminUserController::class, 'patch'])->name('users.patch');
+  Route::delete('/users/destroy/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
   Route::get('/events', [AdminEventController::class, 'index']);
 

@@ -27,6 +27,25 @@
             <span class="text-bred">{{ $errors->first('email') }}</span>
             <label>Users</label>
 
+            {{-- maybe easier way --}}
+            {{-- @foreach ($client->users as $user)
+                @if ($user['id'] != $client->created_by)
+                    <div class="flex gap-2">
+                        <input type="checkbox" value="{{ $user->id }}" name="users[]" id="{{ $user->id }}" checked>
+                        <label for="{{ $user->id }}">{{ $user->name }}</label>
+                    </div>
+                @endif
+            @endforeach --}}
+            @foreach ($users as $user)
+                @if ($user->id == $client->created_by)
+                    @continue
+                @endif
+                <div class="flex gap-2">
+                    <input type="checkbox" value="{{ $user->id }}" name="users[]" id="{{ $user->id }}"
+                        @checked($client->users->contains('id', $user->id))>
+                    <label for="{{ $user->id }}">{{ $user->name }}</label>
+                </div>
+            @endforeach
 
             <button
                 class="block text-white bg-bblue w-fit m-auto py-2 px-4 rounded-md uppercase my-2 focus:outline-none">Edit
@@ -34,21 +53,3 @@
         </form>
     </div>
 @endsection
-
-{{-- 
-            @foreach ($users as $user)
-                @if ($user->id != $client->created_by)
-                    @foreach ($client->users as $alreadyUser)
-                        @if ($user->name === $alreadyUser->name)
-                            <p>{{ $user->name }}</p>
-                            <p>{{ $alreadyUser->name }}</p>
-                            <div class="flex gap-2">
-                                <input type="checkbox" value="{{ $user->id }}" name="users[]" id="{{ $user->id }}"
-                                    checked>
-                                <label for="{{ $user->id }}">{{ $user->name }}</label>
-                            </div>
-                        @endif
-                    @endforeach
-                    
-                @endif
-            @endforeach --}}

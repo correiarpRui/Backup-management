@@ -7,12 +7,10 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\User;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ClientController extends Controller
 {
      public function index(){
-        // $clients = Client::with('users')->where('user_id', '=', auth()->id())->get();
         $clients = Client::all();
         return view('admin.client.index', ['clients'=>$clients]);
     }
@@ -31,6 +29,7 @@ class ClientController extends Controller
         ]; //Create DTO
 
         $client = new Client($data);
+        $client->save();
 
         $users = $request->validated('users', []);
         $users[]= auth()->id();
@@ -49,7 +48,7 @@ class ClientController extends Controller
     }
     
     public function update($id){
-        $client = Client::with('users')->find($id); // tirar o user que criou (created_by)
+        $client = Client::with('users')->find($id);
         $users = User::all();
         return view('admin.client.update', ['client'=>$client, 'users'=>$users]);
     }
@@ -73,7 +72,6 @@ class ClientController extends Controller
         return redirect()->route('admin.clients');
     }
     
-
     public function destroy($id){
         $client = Client::findOrFail($id);
         $client->delete();
