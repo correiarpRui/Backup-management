@@ -1,9 +1,9 @@
-@extends('layouts.admin')
+@extends('layouts.root')
 
 @section('content')
     <div class="w-[400px] flex flex-col justify-center m-auto mt-10 bg-white p-5 rounded-md shadow-md shadow-gray-400 ">
         <div class="text-2xl text-center text-bblue font-medium uppercase mb-4">Edit Client</div>
-        <form action="{{ route('admin.clients.patch', $client->id) }}" method="POST" class="flex flex-col gap-2">
+        <form action="{{ route('root.clients.patch', $client->id) }}" method="POST" class="flex flex-col gap-2">
             @csrf
             @method('PATCH')
             <label for="name">Name</label>
@@ -27,15 +27,6 @@
             <span class="text-bred">{{ $errors->first('email') }}</span>
             <label>Users</label>
 
-            {{-- maybe easier way --}}
-            {{-- @foreach ($client->users as $user)
-                @if ($user['id'] != $client->created_by)
-                    <div class="flex gap-2">
-                        <input type="checkbox" value="{{ $user->id }}" name="users[]" id="{{ $user->id }}" checked>
-                        <label for="{{ $user->id }}">{{ $user->name }}</label>
-                    </div>
-                @endif
-            @endforeach --}}
             @foreach ($users as $user)
                 @if ($user->id == $client->created_by)
                     @continue

@@ -13,14 +13,14 @@
     <nav
         class="flex text-xl justify-between items-center border-2 px-5 py-4 text-bblue shadow-md shadow-gray-300 bg-white">
         <div class="flex gap-5 text-base">
-            <a href="/admin/clients" class="uppercase font-semibold">Clients</a>
-            <a href="/admin/backups" class="uppercase font-semibold">Backups</a>
-            <a href="/admin/events" class="uppercase font-semibold">Events</a>
-            <a href={{ route('admin.users') }} class="uppercase font-semibold">User</a>
+            <a href="/root/clients" class="uppercase font-semibold">Clients</a>
+            <a href="/root/backups" class="uppercase font-semibold">Backups</a>
+            <a href="/root/events" class="uppercase font-semibold">Events</a>
+            <a href={{ route('root.users') }} class="uppercase font-semibold">User</a>
         </div>
         <div class="flex gap-5">
             @auth
-                <a href="/admin/user" class="uppercase font-semibold text-base">{{ auth()->user()->name }}
+                <a href="/root/user" class="uppercase font-semibold text-base">{{ auth()->user()->name }}
                     {{ auth()->user()->role }}</a>
             @endauth
 

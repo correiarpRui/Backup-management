@@ -25,6 +25,7 @@ class StoreUserRequest extends FormRequest
             'name'=>['required', 'min:3', 'max:10'],
             'email'=>['required', 'email'],
             'password'=>['required', 'min:3', 'max:10'],
+            'role'=>['required', 'string']
         ];
     }
 }

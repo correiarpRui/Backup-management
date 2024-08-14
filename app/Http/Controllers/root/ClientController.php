@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\root;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClientRequest;
@@ -12,12 +12,12 @@ class ClientController extends Controller
 {
      public function index(){
         $clients = Client::all();
-        return view('admin.client.index', ['clients'=>$clients]);
+        return view('root.client.index', ['clients'=>$clients]);
     }
 
     public function create(){
         $users = User::where('id', '!=', auth()->id())->get();
-        return view('admin.client.create', ['users'=>$users]);
+        return view('root.client.create', ['users'=>$users]);
     }
 
     public function store(StoreClientRequest $request){
@@ -36,7 +36,7 @@ class ClientController extends Controller
         $client->users()->attach($users);
         $client->save();
 
-        return redirect()->route('admin.clients');
+        return redirect()->route('root.clients');
     }
     
     public function show($id){
@@ -44,13 +44,13 @@ class ClientController extends Controller
             $query->where('user_id', '!=', auth()->id() ); //maybe not right
         }])->find($id);
         $users = User::all();
-        return view('admin.client.show', ['client'=> $client, 'users'=>$users]);
+        return view('root.client.show', ['client'=> $client, 'users'=>$users]);
     }
     
     public function update($id){
         $client = Client::with('users')->find($id);
         $users = User::all();
-        return view('admin.client.update', ['client'=>$client, 'users'=>$users]);
+        return view('root.client.update', ['client'=>$client, 'users'=>$users]);
     }
 
     public function patch(UpdateClientRequest $request, $id){
@@ -69,12 +69,12 @@ class ClientController extends Controller
         $client->users()->sync($users);
         $client->save();
 
-        return redirect()->route('admin.clients');
+        return redirect()->route('root.clients');
     }
     
     public function destroy($id){
-        $client = Client::findOrFail($id);
+        $client = Client::find($id);
         $client->delete();
-        return redirect()->route('admin.clients');
+        return redirect()->route('root.clients');
     }
 }

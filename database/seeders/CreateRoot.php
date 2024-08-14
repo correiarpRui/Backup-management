@@ -16,7 +16,7 @@ class CreateRoot extends Seeder
             'name'=>'root',
             'email'=>'root@world.com',
             'password'=>'password',
-            'role'=>'admin'
+            'role'=>'root'
         ]);
 
         User::create([

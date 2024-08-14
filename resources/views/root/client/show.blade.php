@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.root')
 
 @section('content')
     <div class="grid grid-cols-2">
@@ -24,12 +24,12 @@
                 <p class="font-medium text-xl">{{ $client->address }}</p>
             </div>
             <div class="flex gap-2">
-                <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST">
+                <form action="{{ route('root.clients.destroy', $client->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <input type="submit" value="Delete" class="text-bred cursor-pointer">
                 </form>
-                <a href="{{ route('admin.clients.update', $client->id) }}">Edit</a>
+                <a href="{{ route('root.clients.update', $client->id) }}">Edit</a>
             </div>
         </div>
         <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex flex-col gap-5 py-2 px-8">

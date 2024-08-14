@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.root')
 
 @section('content')
     <div class="flex justify-between m-5 items-center">
@@ -19,21 +19,25 @@
             <p class="font-semibold text-bgray text-l ">Role:</p>
             <p class="font-medium text-xl">{{ $user->role }}</p>
         </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Access Key:</p>
-            <p class="font-medium text-xl">{{ $user->access_key }}</p>
-        </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Secret Key:</p>
-            <p class="font-medium text-xl">{{ $user->secret_key }}</p>
-        </div>
+        @if ($user->role === 'root')
+            <div>
+                <p class="font-semibold text-bgray text-l ">Access Key:</p>
+                <p class="font-medium text-xl">{{ $user->access_key }}</p>
+            </div>
+            <div>
+                <p class="font-semibold text-bgray text-l ">Secret Key:</p>
+                <p class="font-medium text-xl">{{ $user->secret_key }}</p>
+            </div>
+        @endif
         <div class="flex gap-2">
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+            <form action="{{ route('root.users.destroy', $user->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <input type="submit" value="Delete" class="text-bred cursor-pointer">
             </form>
-            <a href="{{ route('admin.users.update', $user->id) }}">Edit</a>
+            <a href="{{ route('root.users.update', $user->id) }}">Edit</a>
         </div>
+
+
     </div>
 @endsection

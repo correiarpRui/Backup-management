@@ -1,9 +1,9 @@
-@extends('layouts.admin')
+@extends('layouts.root')
 
 @section('content')
     <div class="w-[400px] flex flex-col justify-center m-auto mt-10 bg-white p-5 rounded-md shadow-md shadow-gray-400 ">
         <div class="text-2xl text-center text-bblue font-medium uppercase mb-4">Create Client</div>
-        <form action="{{ route('admin.clients.store') }}" method="POST" class="flex flex-col gap-2">
+        <form action="{{ route('root.clients.store') }}" method="POST" class="flex flex-col gap-2">
             @csrf
             <label for="name">Name</label>
             <input type="text" id="name" name="name" value="{{ old('name', '') }}"

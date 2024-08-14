@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\root;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backup;
@@ -11,6 +11,6 @@ class EventController extends Controller
 
     $data = Backup::with('reports')->where('user_id', '=', auth()->user()->id)->get();
 
-        return view('admin.events.index', ['data'=>$data]);
+        return view('root.events.index', ['data'=>$data]);
     }
 }

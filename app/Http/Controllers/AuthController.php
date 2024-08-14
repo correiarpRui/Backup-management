@@ -19,8 +19,8 @@ class AuthController extends Controller
         ])->validate();
 
         if(auth()->attempt(request()->only(['email', 'password']))){
-            if(auth()->user()->role === 'admin'){
-                return redirect(route('admin.clients'));
+            if(auth()->user()->role === 'root'){
+                return redirect(route('root.clients'));
             } else{
                 return redirect(route('client.backups'));
             }

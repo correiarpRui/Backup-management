@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\root;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBackupRequest;
@@ -15,7 +15,7 @@ class BackupController extends Controller
 {
     public function index(){
         $backups = Backup::where('user_id', '=', auth()->user()->id)->get();
-        return view('admin.backup.index', ['backups'=>$backups]);
+        return view('root.backup.index', ['backups'=>$backups]);
     }
 
     public function create(){
@@ -23,13 +23,13 @@ class BackupController extends Controller
         $clients = Client::where('user_id', '=', auth()->user()->id)->get();
         $date = date('Y-m-d'); 
 
-        return view('admin.backup.create', ['clients'=>$clients, 'date'=>$date]);
+        return view('root.backup.create', ['clients'=>$clients, 'date'=>$date]);
     }
 
     public function destroy($id){
         $backup = Backup::find($id);
         $backup->delete();
-        return redirect('/admin/backups');
+        return redirect('/root/backups');
     }
 
     public function store(StoreBackupRequest $request){
@@ -57,7 +57,7 @@ class BackupController extends Controller
         (new GenerateBackupConfig)->generateBackup($backup);
         
         
-        return redirect('/admin/backups');
+        return redirect('/root/backups');
     }
 
     public function download($id){

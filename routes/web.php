@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\admin\BackupController as AdminBackupController;
+use App\Http\Controllers\root\BackupController as RootBackupController;
 use App\Http\Controllers\client\BackupController as ClientBackupController;
-use App\Http\Controllers\admin\ClientController;
-use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\root\ClientController;
+use App\Http\Controllers\root\EventController as RootEventController;
 use App\Http\Controllers\client\EventController as ClientEventController;
-use App\Http\Controllers\admin\UserController as AdminUserController;
+use App\Http\Controllers\root\UserController as RootUserController;
 use App\Http\Controllers\client\UserController as ClientUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuthController::class, 'show'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
-Route::get('/users/create', [AdminUserController::class, 'create']);
-Route::post('/users', [AdminUserController::class, 'store']);
+Route::get('/users/create', [RootUserController::class, 'create']);
+Route::post('/users', [RootUserController::class, 'store']);
 
 Route::group([
-  'prefix' => 'admin',
-  'as'=> 'admin.',
-  'namespace'=>'admin',
-  'middleware'=>['auth', 'admin']
+  'prefix' => 'root',
+  'as'=> 'root.',
+  'namespace'=>'root',
+  'middleware'=>['auth', 'root']
 ], function(){
   Route::get('/clients', [ClientController::class, 'index'])->name('clients');
   Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
@@ -32,21 +32,22 @@ Route::group([
   Route::patch('/clients/{id}', [ClientController::class, 'patch'])->name('clients.patch');
   Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
 
-  Route::get('/backups', [AdminBackupController::class, 'index']);
-  Route::get('/backups/create', [AdminBackupController::class, 'create']);
-  Route::delete('/backups/{id}', [AdminBackupController::class, 'destroy']);
-  Route::post('/backups', [AdminBackupController::class, 'store']);
-  Route::get('/backups/download/{id}', [AdminBackupController::class, 'download']);
+  Route::get('/backups', [RootBackupController::class, 'index']);
+  Route::get('/backups/create', [RootBackupController::class, 'create']);
+  Route::delete('/backups/{id}', [RootBackupController::class, 'destroy']);
+  Route::post('/backups', [RootBackupController::class, 'store']);
+  Route::get('/backups/download/{id}', [RootBackupController::class, 'download']);
 
-  Route::get('/users', [AdminUserController::class, 'index'])->name('users');
-  Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
-  Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
-  Route::get('/user', [AdminUserController::class, 'show'])->name('users.show');
-  Route::get('/user/update', [AdminUserController::class, 'update'])->name('users.update');
-  Route::patch('/user', [AdminUserController::class, 'patch'])->name('users.patch');
-  Route::delete('/users/destroy/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+  Route::get('/users', [RootUserController::class, 'index'])->name('users');
+  Route::post('/users', [RootUserController::class, 'index'])->name('users.sort');
+  Route::get('/users/create', [RootUserController::class, 'create'])->name('users.create');
+  Route::post('/users', [RootUserController::class, 'store'])->name('users.store');
+  Route::get('/user/show/{id}', [RootUserController::class, 'show'])->name('users.show');
+  Route::get('/user/update/{id}', [RootUserController::class, 'update'])->name('users.update');
+  Route::patch('/user', [RootUserController::class, 'patch'])->name('users.patch');
+  Route::delete('/users/destroy/{id}', [RootUserController::class, 'destroy'])->name('users.destroy');
 
-  Route::get('/events', [AdminEventController::class, 'index']);
+  Route::get('/events', [RootEventController::class, 'index']);
 
 });
 
