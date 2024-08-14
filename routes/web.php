@@ -42,9 +42,11 @@ Route::group([
   Route::post('/users', [RootUserController::class, 'index'])->name('users.sort');
   Route::get('/users/create', [RootUserController::class, 'create'])->name('users.create');
   Route::post('/users', [RootUserController::class, 'store'])->name('users.store');
-  Route::get('/user/show/{id}', [RootUserController::class, 'show'])->name('users.show');
-  Route::get('/user/update/{id}', [RootUserController::class, 'update'])->name('users.update');
-  Route::patch('/user', [RootUserController::class, 'patch'])->name('users.patch');
+  Route::get('/users/show/{id}', [RootUserController::class, 'show'])->name('users.show');
+  Route::get('/users/update/{id}', [RootUserController::class, 'update'])->name('users.update');
+  Route::get('/users/update/key/{id}', [RootUserController::class, 'updateKey'])->name('users.update.key');
+  Route::patch('/users/{id}', [RootUserController::class, 'patch'])->name('users.patch');
+  Route::patch('/users/key/{id}', [RootUserController::class, 'patchKey'])->name('users.patch.key');
   Route::delete('/users/destroy/{id}', [RootUserController::class, 'destroy'])->name('users.destroy');
 
   Route::get('/events', [RootEventController::class, 'index']);

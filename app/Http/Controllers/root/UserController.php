@@ -4,6 +4,8 @@ namespace App\Http\Controllers\root;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserKeyRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -23,7 +25,6 @@ class UserController extends Controller
     }
 
     public function store(StoreUserRequest $request){
-        // $validated = $request->validated();              can ???
         $user = new User($request->validated());
         $user->save();        
 
@@ -35,19 +36,27 @@ class UserController extends Controller
         return view('root.users.show',['user'=>$user]);
     }
 
-    public function update(){
-        $user = User::find(auth()->user()->id);
+    public function update($id){
+        $user = User::find($id);
         return view('root.users.update',['user'=>$user]);
     }
 
-    public function patch(Request $request){
-        $user = User::findOrFail(auth()->user()->id);
-        $user->email = $request->email;
-        $user->access_key = $request->access_key;
-        $user->secret_key = $request->secret_key;
-        $user->save();
+    public function updateKey($id){
+        $user = User::find($id);
+        return view('root.users.updateKey', ['user'=>$user]);
+    }
 
-        return redirect('/root/user');
+    public function patch(UpdateUserRequest $request, $id){
+        $user = User::find($id);
+        $user->update($request->validated());
+        
+        return redirect()->route('root.users.show', $id);   
+    }
+
+    public function patchKey(UpdateUserKeyRequest $request, $id){
+        $user = User::find($id);
+        $user->updated($request->validated());
+        return redirect()->route('root.users.show', $id);
     }
 
     public function destroy($id){

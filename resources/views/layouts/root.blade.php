@@ -16,7 +16,7 @@
             <a href="/root/clients" class="uppercase font-semibold">Clients</a>
             <a href="/root/backups" class="uppercase font-semibold">Backups</a>
             <a href="/root/events" class="uppercase font-semibold">Events</a>
-            <a href={{ route('root.users') }} class="uppercase font-semibold">User</a>
+            <a href={{ route('root.users') }} class="uppercase font-semibold">Users</a>
         </div>
         <div class="flex gap-5">
             @auth

@@ -16,7 +16,7 @@ class ClientController extends Controller
     }
 
     public function create(){
-        $users = User::where('id', '!=', auth()->id())->get();
+        $users = User::WithoutAuthUser()->get();
         return view('root.client.create', ['users'=>$users]);
     }
 
@@ -40,11 +40,9 @@ class ClientController extends Controller
     }
     
     public function show($id){
-        $client = Client::with(['users'=> function ($query){
-            $query->where('user_id', '!=', auth()->id() ); //maybe not right
-        }])->find($id);
-        $users = User::all();
-        return view('root.client.show', ['client'=> $client, 'users'=>$users]);
+        $client = Client::with('users')->find($id);
+        
+        return view('root.client.show', ['client'=> $client]);
     }
     
     public function update($id){

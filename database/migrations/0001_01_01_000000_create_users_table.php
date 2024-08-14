@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'client', 'root'])->default('client');
-            $table->string('access_key')->nullable();
-            $table->string('secret_key')->nullable();
+            $table->string('access_key')->default('Not attributed');
+            $table->string('secret_key')->default('Not attributed');
             $table->rememberToken();
             $table->timestamps();
         });

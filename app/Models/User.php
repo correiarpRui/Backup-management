@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +16,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
+
+    public function scopeWithoutAuthUser($builder) {
+         return $builder->where('id', '!=', auth()->id());
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -53,4 +59,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Client::class)->withTimestamps();
     }
 
+
 }
+
