@@ -82,7 +82,7 @@
                 <label for="tue">Tue</label>
             </div>
             <div class="flex gap-2">
-                <input type="checkbox" value="wen" name="allowedDays[]" id="wednesday" checked>
+                <input type="checkbox" value="wed" name="allowedDays[]" id="wednesday" checked>
                 <label for="wed">Wed</label>
             </div>
             <div class="flex gap-2">

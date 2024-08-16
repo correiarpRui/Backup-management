@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('contact');
             $table->string('email');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
         });
     }
 

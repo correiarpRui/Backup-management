@@ -29,7 +29,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'access_key',
+        'secret_key'
     ];
 
     /**
@@ -58,7 +60,5 @@ class User extends Authenticatable
     public function clients(): BelongsToMany{
         return $this->belongsToMany(Client::class)->withTimestamps();
     }
-
-
 }
 

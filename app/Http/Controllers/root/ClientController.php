@@ -11,8 +11,11 @@ use App\Models\User;
 class ClientController extends Controller
 {
      public function index(){
-        $clients = Client::all();
-        return view('root.client.index', ['clients'=>$clients]);
+        $sort = request('sort', 'asc');
+        $field = request('field', 'name');
+        
+        $clients = Client::orderBy($field, $sort)->get();
+        return view('root.client.index', ['clients'=>$clients, 'sort'=>$sort, 'field'=>$field]);
     }
 
     public function create(){
@@ -25,15 +28,16 @@ class ClientController extends Controller
             'name'=> $request->validated('name'), 
             'address'=>$request->validated('address'),
             'contact'=>$request->validated('contact'), 
-            'email'=>$request->validated('email')
+            'email'=>$request->validated('email'),
         ]; //Create DTO
 
         $client = new Client($data);
         $client->save();
 
         $users = $request->validated('users', []);
-        $users[]= auth()->id();
+        $users[] = auth()->id();
         $client->users()->attach($users);
+        
         $client->save();
 
         return redirect()->route('root.clients');
@@ -41,7 +45,6 @@ class ClientController extends Controller
     
     public function show($id){
         $client = Client::with('users')->find($id);
-        
         return view('root.client.show', ['client'=> $client]);
     }
     

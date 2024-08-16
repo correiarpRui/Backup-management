@@ -17,7 +17,6 @@ class UserController extends Controller
         
         $users = User::orderBy($field, $sort)->get();
         return view('root.users.index', ['users'=>$users, 'sort'=>$sort, 'field'=>$field]);
-        
     }
 
     public function create(){
@@ -54,8 +53,13 @@ class UserController extends Controller
     }
 
     public function patchKey(UpdateUserKeyRequest $request, $id){
+        $data = [
+            'access_key'=>$request->validated('access_key'),
+            'secret_key'=>$request->validated('secret_key')
+        ];
         $user = User::find($id);
-        $user->updated($request->validated());
+        
+        $user->update($data);
         return redirect()->route('root.users.show', $id);
     }
 

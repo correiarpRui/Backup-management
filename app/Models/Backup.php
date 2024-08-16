@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Backup extends Model
 {
-    use HasFactory;
+    use HasFactory, CreatedUpdatedBy;
 
     protected $fillable = [
-        'user_id',
+        'created_by',
+        'updated_by',
         'token',
         'name',
         'client_id',
@@ -38,6 +40,13 @@ class Backup extends Model
         return $this->hasMany(Report::class);
     }
 
+    public function createdBy():BelongsTo{
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy():BelongsTo{
+        return $this->belongsTo(User::class, 'updated_by');
+    }
     
     
 

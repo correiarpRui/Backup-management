@@ -27,7 +27,7 @@ class StoreBackupRequest extends FormRequest
             'description'=>['required','max:40'],
             'encryption'=>['required'],
             'passphrase'=>['required', 'min:5', 'confirmed'],
-            'date'=>['required', 'date_format:Y-m-d', 'before_or_equal:'. Date('Y-m-d')],
+            'date'=>['required', 'date_format:Y-m-d', 'after_or_equal:'. Date('Y-m-d')],
             'time'=>['required', 'date_format:H:i'],
             'repeat'=>['required', 'numeric', 'gte:0'],
             'allowedDays'=>['required'],

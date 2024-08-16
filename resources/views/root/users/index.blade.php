@@ -15,7 +15,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Name</p>
                             <a
-                                href="{{ route('root.users', $sort === 'asc' ? ['sort' => 'desc', 'field' => 'name'] : ['sort' => 'asc', 'field' => 'name']) }}">
+                                href="{{ route('root.users', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
                                 @if ($field != 'name')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -42,7 +42,7 @@
                         <div class="flex items-center">
                             <p class="mr-1">Email</p>
                             <a
-                                href="{{ route('root.users', $sort === 'asc' ? ['sort' => 'desc', 'field' => 'email'] : ['sort' => 'asc', 'field' => 'email']) }}">
+                                href="{{ route('root.users', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'email']) }}">
                                 @if ($field != 'email')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">

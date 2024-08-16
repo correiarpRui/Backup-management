@@ -14,13 +14,13 @@ use Illuminate\Support\Str;
 class BackupController extends Controller
 {
     public function index(){
-        $backups = Backup::where('user_id', '=', auth()->user()->id)->get();
+        $backups = Backup::where('created_by', '=', auth()->user()->id)->get();
         return view('root.backup.index', ['backups'=>$backups]);
     }
 
     public function create(){
 
-        $clients = Client::where('user_id', '=', auth()->user()->id)->get();
+        $clients = Client::where('created_by', '=', auth()->user()->id)->get();
         $date = date('Y-m-d'); 
 
         return view('root.backup.create', ['clients'=>$clients, 'date'=>$date]);
@@ -39,7 +39,6 @@ class BackupController extends Controller
         $date = Carbon::parse($request->date . $request->time)->format('Y-m-d H:i');
 
         $backup = new Backup([
-            'user_id'=>auth()->user()->id,
             'token'=>Str::random(16),
             'name'=>$request->name,
             'client_id'=> $request->client,

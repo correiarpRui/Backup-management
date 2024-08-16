@@ -33,13 +33,7 @@
         </div>
         <div>
             <p class="font-semibold text-bgray text-l ">Created by:</p>
-
-            <p class="font-medium text-xl">
-                {{-- maybe this --}}
-                {{ $client->users->firstWhere('id', $client->created_by)->name }}
-
-                {{-- {{ $createdBy->name }} --}}
-            </p>
+            <p class="font-medium text-xl">{{ $client->createdBy->name }}</p>
         </div>
 
     </div>

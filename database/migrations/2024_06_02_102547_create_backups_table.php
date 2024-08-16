@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('backups', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->string('token')->unique();
             $table->timestamps();
             $table->string('name');
@@ -24,6 +23,8 @@ return new class extends Migration
             $table->timestamp('time');
             $table->integer('repeat');      
             $table->string('allowedDays');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
         });
     }
 

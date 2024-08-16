@@ -32,11 +32,11 @@ Route::group([
   Route::patch('/clients/{id}', [ClientController::class, 'patch'])->name('clients.patch');
   Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
 
-  Route::get('/backups', [RootBackupController::class, 'index']);
-  Route::get('/backups/create', [RootBackupController::class, 'create']);
-  Route::delete('/backups/{id}', [RootBackupController::class, 'destroy']);
-  Route::post('/backups', [RootBackupController::class, 'store']);
-  Route::get('/backups/download/{id}', [RootBackupController::class, 'download']);
+  Route::get('/backups', [RootBackupController::class, 'index'])->name('backups');
+  Route::get('/backups/create', [RootBackupController::class, 'create'])->name('backups.create');
+  Route::post('/backups', [RootBackupController::class, 'store'])->name('backups.store');
+  Route::get('/backups/download/{id}', [RootBackupController::class, 'download'])->name('backups.download');
+  Route::delete('/backups/{id}', [RootBackupController::class, 'destroy'])->name('backups.destroy');
 
   Route::get('/users', [RootUserController::class, 'index'])->name('users');
   Route::post('/users', [RootUserController::class, 'index'])->name('users.sort');
@@ -49,7 +49,7 @@ Route::group([
   Route::patch('/users/key/{id}', [RootUserController::class, 'patchKey'])->name('users.patch.key');
   Route::delete('/users/destroy/{id}', [RootUserController::class, 'destroy'])->name('users.destroy');
 
-  Route::get('/events', [RootEventController::class, 'index']);
+  Route::get('/events', [RootEventController::class, 'index'])->name('events');
 
 });
 
