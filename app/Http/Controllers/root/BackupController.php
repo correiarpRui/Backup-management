@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class BackupController extends Controller
 {
     public function index(){
-        $backups = Backup::where('created_by', '=', auth()->user()->id)->get();
+        $backups = Backup::with('client')->get();
         return view('root.backup.index', ['backups'=>$backups]);
     }
 
@@ -49,13 +49,9 @@ class BackupController extends Controller
             'repeat'=>$request->repeat . $request->units,
             'allowedDays' => $request->allowedDays, 
         ]);
-        
         $backup->save();
-
         //service - Generate Backup
         (new GenerateBackupConfig)->generateBackup($backup);
-        
-        
         return redirect('/root/backups');
     }
 
@@ -65,5 +61,10 @@ class BackupController extends Controller
         $filepath = public_path("storage/{$backup->token}.json");
         return response()->download($filepath);
 
+    }
+
+    public function show($id){
+        $backup = Backup::with('client')->find($id);
+        return view('root.backup.show', ['backup'=>$backup]);
     }
 }

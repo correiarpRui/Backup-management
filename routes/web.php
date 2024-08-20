@@ -36,6 +36,7 @@ Route::group([
   Route::get('/backups/create', [RootBackupController::class, 'create'])->name('backups.create');
   Route::post('/backups', [RootBackupController::class, 'store'])->name('backups.store');
   Route::get('/backups/download/{id}', [RootBackupController::class, 'download'])->name('backups.download');
+  Route::get('/backups/show/{id}', [RootBackupController::class, 'show'])->name('backups.show');
   Route::delete('/backups/{id}', [RootBackupController::class, 'destroy'])->name('backups.destroy');
 
   Route::get('/users', [RootUserController::class, 'index'])->name('users');
