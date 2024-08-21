@@ -4,6 +4,7 @@ namespace App\Http\Controllers\root;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBackupRequest;
+use App\Http\Requests\UpdateBackupRequest;
 use App\Models\Backup;
 use App\Models\Client;
 use App\Services\GenerateBackupConfig;
@@ -13,14 +14,18 @@ use Illuminate\Support\Str;
 
 class BackupController extends Controller
 {
+
     public function index(){
-        $backups = Backup::with('client')->get();
-        return view('root.backup.index', ['backups'=>$backups]);
+
+        $sort = request('sort', 'asc');
+        $field = request('field', 'name');
+
+        $backups = Backup::with('client')->orderBy($field, $sort)->get();
+        return view('root.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field]);
     }
 
     public function create(){
-
-        $clients = Client::where('created_by', '=', auth()->user()->id)->get();
+        $clients = Client::all();
         $date = date('Y-m-d'); 
 
         return view('root.backup.create', ['clients'=>$clients, 'date'=>$date]);
@@ -29,7 +34,7 @@ class BackupController extends Controller
     public function destroy($id){
         $backup = Backup::find($id);
         $backup->delete();
-        return redirect('/root/backups');
+        return redirect()->route('root.backups');
     }
 
     public function store(StoreBackupRequest $request){
@@ -39,7 +44,7 @@ class BackupController extends Controller
         $date = Carbon::parse($request->date . $request->time)->format('Y-m-d H:i');
 
         $backup = new Backup([
-            'token'=>Str::random(16),
+            'token'=>str(Str::random())->lower()->__toString(), //Str::random()->lower() not stringable
             'name'=>$request->name,
             'client_id'=> $request->client,
             'description'=>$request->description,
@@ -49,10 +54,11 @@ class BackupController extends Controller
             'repeat'=>$request->repeat . $request->units,
             'allowedDays' => $request->allowedDays, 
         ]);
+    
         $backup->save();
         //service - Generate Backup
         (new GenerateBackupConfig)->generateBackup($backup);
-        return redirect('/root/backups');
+        return redirect()->route('root.backups');
     }
 
     public function download($id){
@@ -66,5 +72,33 @@ class BackupController extends Controller
     public function show($id){
         $backup = Backup::with('client')->find($id);
         return view('root.backup.show', ['backup'=>$backup]);
+    }
+
+    public function update($id){
+        $clients = Client::all();
+        $date = date('Y-m-d'); 
+        $backup = Backup::find($id);
+        return view ('root.backup.update', ['clients'=>$clients, 'date'=>$date, 'backup'=>$backup]);
+    }
+
+    public function patch(UpdateBackupRequest $request, $id){
+        $backup = Backup::find($id);
+    
+        $data = [
+            'token'=>$backup->token,
+            'name'=>$request->validated('name'),
+            'client_id'=> $request->validated('client'),
+            'description'=>$request->validated('description'),
+            'encryption'=>$request->validated('encryption'),
+            'passphrase'=>$request->validated('passphrase'),
+            'time'=> Carbon::parse($request->validated('data'). $request->validated('time'))->format('Y-m-d H:i'),
+            'repeat'=> ($request->validated('repeat') . $request->validated('units')),
+            'allowedDays' => $request->validated('allowedDays'), 
+        ]; 
+        
+        $backup->update($data);
+        (new GenerateBackupConfig)->updateBackup($backup);
+
+        return redirect()->route('root.backups.show', $backup->id);
     }
 }

@@ -131,12 +131,14 @@
                         <td class="p-2">{{ $client->email }}</td>
                         <td class="p-2">
                             <div class="flex gap-2">
-                                <a href="{{ route('root.clients.show', $client->id) }}">View</a>
-                                <a href="{{ route('root.clients.update', $client->id) }}">Edit</a>
+                                <a href="{{ route('root.clients.show', $client->id) }}"
+                                    class="text-bblue font-semibold">View</a>
+                                <a href="{{ route('root.clients.update', $client->id) }}"
+                                    class="text-bblue font-semibold">Edit</a>
                                 <form action="{{ route('root.clients.destroy', $client->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <input type="submit" value="Delete" class="text-bred">
+                                    <input type="submit" value="Delete" class="text-bred font-semibold">
                                 </form>
                             </div>
                         </td>
