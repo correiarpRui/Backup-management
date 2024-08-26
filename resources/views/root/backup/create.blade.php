@@ -103,8 +103,9 @@
             </div>
             <span class="text-bred">{{ $errors->first('allowedDays') }}</span>
 
-            <input type="submit" value="Generate Backup"
-                class="block text-white bg-bblue w-fit m-auto py-2 px-4 rounded-md uppercase mt-5 focus:outline-none">
+            <button class="block text-white bg-bblue w-fit m-auto py-2 px-4 rounded-md uppercase mt-5 focus:outline-none">
+                Generate Backup
+            </button>
         </form>
     </div>
 @endsection

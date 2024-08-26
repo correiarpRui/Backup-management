@@ -10,6 +10,18 @@ class Report extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'token',
+        'backup_id',
+        'name',
+        'operation_name',
+        'begin_time',
+        'end_time',
+        'duration',
+        'warnings',
+        'errors',
+    ];
+
     public function backup():BelongsTo{
         return $this->belongsTo(Backup::class);
     }

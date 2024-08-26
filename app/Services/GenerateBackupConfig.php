@@ -93,17 +93,6 @@ class GenerateBackupConfig
                 ]
             ]
         ]];
-
-        $s3client = new S3Client([
-            'version' => '2006-03-01',
-            'region' => 'us-east-1',
-            'use_path_style_endpoint' => true,
-            'endpoint'=>'http://localhost:9000',
-            'credentials'=> [
-                'key'=> $user->access_key,
-                'secret'=> $user->secret_key,
-            ]
-        ]);
         
         config(['filesystems.disks.s3.key' => $user->access_key]);
         config(['filesystems.disks.s3.secret' => $user->secret_key]);

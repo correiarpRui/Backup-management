@@ -92,6 +92,7 @@
                             </a>
                         </div>
                     </td>
+                    <td class="p-2">Action</td>
                 </tr>
             </thead>
             <tbody>
@@ -101,14 +102,8 @@
                         <td class="p-2">{{ $user->email }}</td>
                         <td class="p-2">{{ $user->role }}</td>
                         <td class="p-2">
-                            <div class="flex gap-2">
-                                <a href="{{ route('root.users.show', $user->id) }}">View</a>
-                                <a href="{{ route('root.users.update', $user->id) }}">Edit</a>
-                                <form action="{{ route('root.users.destroy', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="Delete" class="text-bred cursor-pointer">
-                                </form>
+                            <div class="flex gap-2 text-bblue font-semibold">
+                                <a href="{{ route('root.users.show', $user->id) }} ">View</a>
                             </div>
                         </td>
                     </tr>

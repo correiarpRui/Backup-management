@@ -205,9 +205,10 @@
                     <tr class="even:bg-blgray">
                         <td class="p-2">{{ $event->name }}</td>
                         <td class="p-2">{{ $event->operation_name }}</td>
-                        <td class="p-2">{{ \Carbon\Carbon::parse($event->begin_time)->format('d-m-Y') }}</td>
-                        <td class="p-2">{{ \Carbon\Carbon::parse($event->end_time)->format('d-m-Y') }}</td>
-                        <td class="p-2">{{ \Carbon\CarbonInterval::seconds($event->duration)->cascade()->forHumans() }}
+                        <td class="p-2">{{ \Carbon\Carbon::parse($event->begin_time)->format('d-m-Y h:i A') }}</td>
+                        <td class="p-2">{{ \Carbon\Carbon::parse($event->end_time)->format('d-m-Y h:i A') }}</td>
+                        <td class="p-2">{{ round(\Carbon\Carbon::parse($event->duration)->secondsSinceMidnight()) }}
+                            seconds
                         </td>
                         <td class="p-2">{{ $event->warnings }}</td>
                         <td class="p-2">{{ $event->errors }}</td>

@@ -3,7 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\root\BackupController as RootBackupController;
 use App\Http\Controllers\client\BackupController as ClientBackupController;
-use App\Http\Controllers\root\ClientController;
+use App\Http\Controllers\client\ClientController;
+use App\Http\Controllers\root\ClientController as RootClientController;
 use App\Http\Controllers\root\EventController as RootEventController;
 use App\Http\Controllers\client\EventController as ClientEventController;
 use App\Http\Controllers\root\UserController as RootUserController;
@@ -24,13 +25,13 @@ Route::group([
   'namespace'=>'root',
   'middleware'=>['auth', 'root']
 ], function(){
-  Route::get('/clients', [ClientController::class, 'index'])->name('clients');
-  Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
-  Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
-  Route::get('/clients/show/{id}', [ClientController::class, 'show'])->name('clients.show');
-  Route::get('/clients/update/{id}', [ClientController::class, 'update'])->name('clients.update');
-  Route::patch('/clients/{id}', [ClientController::class, 'patch'])->name('clients.patch');
-  Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
+  Route::get('/clients', [RootClientController::class, 'index'])->name('clients');
+  Route::get('/clients/create', [RootClientController::class, 'create'])->name('clients.create');
+  Route::post('/clients', [RootClientController::class, 'store'])->name('clients.store');
+  Route::get('/clients/show/{id}', [RootClientController::class, 'show'])->name('clients.show');
+  Route::get('/clients/update/{id}', [RootClientController::class, 'update'])->name('clients.update');
+  Route::patch('/clients/{id}', [RootClientController::class, 'patch'])->name('clients.patch');
+  Route::delete('/clients/{id}', [RootClientController::class, 'destroy'])->name('clients.destroy');
 
   Route::get('/backups', [RootBackupController::class, 'index'])->name('backups');
   Route::get('/backups/create', [RootBackupController::class, 'create'])->name('backups.create');
@@ -62,6 +63,8 @@ Route::group([
   'namespace'=>'client',
   'middleware'=>['auth']
 ], function(){
+  Route::get('/client', [ClientController::class, 'index'])->name('client');
+
   Route::get('/backups', [ClientBackupController::class, 'index'])->name('backups');
   Route::get('/backups/download/{id}', [ClientBackupController::class, 'download']);
 

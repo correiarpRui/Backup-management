@@ -4,6 +4,8 @@
     <div class="flex justify-between m-5 items-center">
         <p class="text-bblue text-3xl mx-5 font-normal">Backup Details</p>
         <div class="flex gap-3">
+            <a href="{{ route('root.backups.download', $backup->id) }}"
+                class=" bg-bblue text-white  p-3 rounded-md w-auto inline-block">Download</a>
             <a href="{{ route('root.backups.update', $backup->id) }}"
                 class=" bg-bblue text-white  p-3 rounded-md w-auto inline-block">Edit</a>
             <form action="{{ route('root.backups.destroy', $backup->id) }}" method="POST">
