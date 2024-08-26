@@ -12,9 +12,8 @@ class EventController extends Controller
     
     $sort = request('sort', 'asc');
     $field = request('field', 'name');
-    $events = Report::all();
-    // $events = Backup::with('reports')->orderBy($field, $sort)->get();
+    $events = Report::orderBy($field, $sort)->get();
     
-        return view('root.events.index', ['events'=>$events, 'sort'=>$sort, 'field'=>$field]);
+    return view('root.events.index', ['events'=>$events, 'sort'=>$sort, 'field'=>$field]);
     }
 }

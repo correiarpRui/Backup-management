@@ -70,8 +70,14 @@ class BackupController extends Controller
     }
 
     public function show($id){
-        $backup = Backup::with('client')->find($id);
-        return view('root.backup.show', ['backup'=>$backup]);
+        $sort = request('sort', 'asc');
+        $field = request('field', 'name');
+
+        $backup = Backup::with(['client', 'reports'=>function($query) use ($sort, $field) {
+            $query->orderBy($field, $sort);
+        }])->find($id);
+
+        return view('root.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field]);
     }
 
     public function update($id){

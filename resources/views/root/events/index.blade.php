@@ -40,8 +40,8 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Operation</p>
                             <a
-                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'operation']) }}">
-                                @if ($field != 'operation')
+                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'operation_name']) }}">
+                                @if ($field != 'operation_name')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
                                         <path fill="currentColor"
@@ -67,8 +67,8 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Start</p>
                             <a
-                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'start']) }}">
-                                @if ($field != 'start')
+                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'begin_time']) }}">
+                                @if ($field != 'begin_time')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
                                         <path fill="currentColor"
@@ -94,8 +94,8 @@
                         <div class="flex items-center ">
                             <p class="mr-1">End</p>
                             <a
-                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'end']) }}">
-                                @if ($field != 'end')
+                                href="{{ route('root.events', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'end_time']) }}">
+                                @if ($field != 'end_time')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
                                         <path fill="currentColor"

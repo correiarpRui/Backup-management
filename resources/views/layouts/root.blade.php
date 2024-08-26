@@ -20,7 +20,8 @@
         </div>
         <div class="flex gap-5">
             @auth
-                <a href="/root/user" class="uppercase font-semibold text-base">{{ auth()->user()->name }}
+                <a href="{{ route('root.users.show', auth()->user()->id) }}"
+                    class="uppercase font-semibold text-base">{{ auth()->user()->name }}
                     {{ auth()->user()->role }}</a>
             @endauth
 
