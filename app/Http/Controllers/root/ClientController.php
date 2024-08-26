@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Backup;
 
 class ClientController extends Controller
 {
@@ -44,8 +45,13 @@ class ClientController extends Controller
     }
     
     public function show($id){
+        $sort = request('sort', 'asc');
+        $field = request('field', 'name');
+
+        $backups = Backup::where('client_id', $id)->orderBy($field, $sort)->get();
+
         $client = Client::with('users')->find($id);
-        return view('root.client.show', ['client'=> $client]);
+        return view('root.client.show', ['client'=> $client, 'backups'=>$backups, 'sort'=>$sort, 'field'=>$field]);
     }
     
     public function update($id){
@@ -76,6 +82,6 @@ class ClientController extends Controller
     public function destroy($id){
         $client = Client::find($id);
         $client->delete();
-        return redirect()->route('root.clients');
+        return redirect()->route('root.clients'); 
     }
 }

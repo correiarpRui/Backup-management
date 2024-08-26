@@ -9,7 +9,7 @@
             <form action="{{ route('root.backups.destroy', $backup->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button class=" bg-bred text-white p-3 mr-5 rounded-md w-auto inline-block">Delete </button>
+                <button class=" bg-bred text-white p-3  mr-5 rounded-md w-auto inline-block">Delete </button>
             </form>
         </div>
     </div>
@@ -28,6 +28,10 @@
             <p class="font-medium text-xl">{{ $backup->description }}</p>
         </div>
         <div>
+            <p class="font-semibold text-bgray text-l ">Bucket Token:</p>
+            <p class="font-medium text-xl">{{ $backup->token }}</p>
+        </div>
+        <div>
             <p class="font-semibold text-bgray text-l ">Encryption:</p>
             <p class="font-medium text-xl uppercase">{{ $backup->encryption }}</p>
         </div>
@@ -37,7 +41,7 @@
         </div>
     </div>
 
-    <div class="text-bblue text-3xl mx-5 font-normal px-5 ">Schedule</div>
+    <div class="text-bblue text-3xl mx-5 font-normal px-5 py-3  ">Schedule</div>
     <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex flex-col gap-2 py-2 px-5">
         <div>
             <p class="font-semibold text-bgray text-l ">Start: </p>
@@ -77,7 +81,7 @@
             <p class="font-semibold text-bgray text-l ">Allowed Run Days:</p>
 
             <p class="font-medium text-xl">{{ ucwords(implode(', ', $backup->allowedDays)) }}</p>
-
         </div>
     </div>
+    <div class="text-bblue text-3xl mx-5 font-normal px-5 py-3  ">Events</div>
 @endsection

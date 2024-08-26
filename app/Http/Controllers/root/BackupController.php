@@ -19,7 +19,7 @@ class BackupController extends Controller
 
         $sort = request('sort', 'asc');
         $field = request('field', 'name');
-
+        
         $backups = Backup::with('client')->orderBy($field, $sort)->get();
         return view('root.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field]);
     }
