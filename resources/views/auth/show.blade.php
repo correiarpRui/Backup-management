@@ -25,8 +25,8 @@
             @error('password')
                 <p class="text-bred">{{ $message }}</p>
             @enderror
-            <input type="submit" value="Login"
-                class="block text-white bg-bblue w-fit m-auto py-2 px-4 rounded-md uppercase my-2 focus:outline-none">
+            <button
+                class="block text-white bg-bblue w-fit m-auto py-2 px-4 rounded-md uppercase my-2 focus:outline-none">Login</button>
         </form>
     </div>
 </body>

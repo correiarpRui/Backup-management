@@ -22,7 +22,7 @@ class AuthController extends Controller
             if(auth()->user()->role === 'root'){
                 return redirect(route('root.clients'));
             } else{
-                return redirect(route('client.backups'));
+                return redirect(route('client.clients'));
             }
         }
         return redirect()->back()->withErrors(['email' => 'Invalid Credentials']);        

@@ -1,141 +1,20 @@
-@extends('layouts.client')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-    <div class="flex justify-between m-5 items-center">
-        <p class="text-bblue text-3xl mx-5 font-normal">Client Details</p>
-        <div class="flex gap-3">
-            {{-- <a href="{{ route('root.clients.update', $client->id) }}"
-                class=" bg-bblue text-white  p-3 rounded-md w-auto inline-block">Edit</a>
-            <form action="{{ route('root.clients.destroy', $client->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class=" bg-bred text-white p-3 mr-5 rounded-md w-auto inline-block">Delete </button>
-            </form> --}}
-        </div>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @vite('resources/css/app.css')
+    <title>Document</title>
+</head>
 
-    <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex flex-col gap-2 py-2 px-5">
-        <div>
-            <p class="font-semibold text-bgray text-l ">Client Name: </p>
-            <p class="font-medium text-xl">{{ $client->name }}</p>
-        </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Email Adress:</p>
-            <p class="font-medium text-xl">{{ $client->email }}</p>
-        </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Phone No.:</p>
-            <p class="font-medium text-xl">{{ $client->contact }}</p>
-        </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Address:</p>
-            <p class="font-medium text-xl">{{ $client->address }}</p>
-        </div>
-        <div>
-            <p class="font-semibold text-bgray text-l ">Created by:</p>
-            <p class="font-medium text-xl">{{ $client->createdBy->name }}</p>
-        </div>
-
-    </div>
-    <div class="text-bblue text-3xl mx-5 font-normal px-5 ">Users</div>
-    <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex flex-col gap-5 py-2 px-8">
-        @foreach ($client->users as $user)
-            @if ($user->id == $client->created_by)
-                @continue
-            @else
-                <div class="flex gap-5">
-                    <div>
-                        <p class="font-semibold text-bgray text-l ">Name:</p>
-                        <p class="font-medium text-xl">{{ $user->name }}</p>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-bgray text-l ">Email address:</p>
-                        <p class="font-medium text-xl">{{ $user->email }}</p>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-bgray text-l ">Role:</p>
-                        <p class="font-medium text-xl">{{ $user->role }}</p>
-                    </div>
-                </div>
-            @endif
+<body class="bg-blgray flex h-screen">
+    <div class="w-[400px] flex flex-col justify-center m-auto bg-white p-5 rounded-md shadow-md shadow-gray-400">
+        <div class="text-2xl text-center text-bblue font-medium uppercase mb-6">Select Client</div>
+        @foreach ($clients as $client)
+            <a href="{{ route('client.clients.show', $client->id) }}"
+                class="border-2 hover:bg-bblue hover:text-white rounded-md text-center p-2 mb-4">{{ $client->name }}</a>
         @endforeach
     </div>
-    <div class="text-bblue text-3xl mx-5 font-normal px-5 ">Backups</div>
-    <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex gap-2 flex-col">
-        <table class="border-collapse m-4">
-            <thead>
-                <tr class="font-semibold text-bblue border-b-2 border-bblue">
-                    <td class="p-2">
-                        <div class="flex items-center ">
-                            <p class="mr-1">Name</p>
-                            <a
-                                href="{{ route('root.backups', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
-                                @if ($field != 'name')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9S301 224.1 288 224.1L32 224c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 288 32.1 288h256c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z" />
-                                    </svg>
-                                @elseif ($sort === 'asc')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9S19 224.1 32 224.1h256c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z" />
-                                    </svg>
-                                @elseif ($sort === 'desc')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9S19 287.9 32 287.9h256c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z" />
-                                    </svg>
-                                @endif
-                            </a>
-                        </div>
-                    </td>
-                    <td class="p-2">
-                        <div class="flex items-center ">
-                            <p class="mr-1">Description</p>
-                            <a
-                                href="{{ route('root.backups', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'description']) }}">
-                                @if ($field != 'description')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M137.4 41.4c12.5-12.5 32.8-12.5 45.3 0l128 128c9.2 9.2 11.9 22.9 6.9 34.9S301 224.1 288 224.1L32 224c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9l128-128zm0 429.3l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9S19.1 288 32.1 288h256c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128c-12.5 12.5-32.8 12.5-45.3 0z" />
-                                    </svg>
-                                @elseif ($sort === 'asc')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9S19 224.1 32 224.1h256c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z" />
-                                    </svg>
-                                @elseif ($sort === 'desc')
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
-                                        viewBox="0 0 320 512">
-                                        <path fill="currentColor"
-                                            d="M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9S19 287.9 32 287.9h256c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z" />
-                                    </svg>
-                                @endif
-                            </a>
-                        </div>
-                    </td>
-                    <td class="p-2">Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($backups as $backup)
-                    <tr class="even:bg-blgray">
-                        <td class="p-2">{{ $backup->name }}</td>
-                        <td class="p-2">{{ $backup->description }}</td>
-                        <td class="p-2">
-                            <div class="flex gap-2">
-                                <a href="{{ route('root.backups.show', $backup->id) }}"
-                                    class="text-bblue font-semibold">View</a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-@endsection
+</body>

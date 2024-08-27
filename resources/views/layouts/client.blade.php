@@ -13,9 +13,8 @@
     <nav
         class="flex text-xl justify-between items-center border-2 px-5 py-4 text-bblue shadow-md shadow-gray-300 bg-white">
         <div class="flex gap-5 text-base">
-            <a href="{{ route('client.client') }}" class="uppercase font-semibold">Client</a>
-            <a href="/client/backups" class="uppercase font-semibold">Backups</a>
-            <a href="/client/events" class="uppercase font-semibold">Events</a>
+            <a href="{{ route('client.clients') }}" class="uppercase font-semibold">Clients</a>
+            @yield('navLinks')
         </div>
         <div class="flex gap-5">
             @auth

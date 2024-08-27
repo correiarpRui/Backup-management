@@ -62,11 +62,9 @@ class BackupController extends Controller
     }
 
     public function download($id){
-        
         $backup = Backup::findOrFail($id);
         $filepath = public_path("storage/{$backup->token}.json");
         return response()->download($filepath);
-
     }
 
     public function show($id){

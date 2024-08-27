@@ -63,10 +63,12 @@ Route::group([
   'namespace'=>'client',
   'middleware'=>['auth']
 ], function(){
-  Route::get('/client', [ClientController::class, 'index'])->name('client');
+  Route::get('/client', [ClientController::class, 'index'])->name('clients');
+  Route::get('/client/show/{id}', [ClientController::class, 'show'])->name('clients.show');
 
-  Route::get('/backups', [ClientBackupController::class, 'index'])->name('backups');
-  Route::get('/backups/download/{id}', [ClientBackupController::class, 'download']);
+  Route::get('/{id}/backups', [ClientBackupController::class, 'index'])->name('backups');
+  Route::get('/{clientId}/backups/show/{id}', [ClientBackupController::class, 'show'])->name('backups.show');
+  Route::get('/backups/download/{id}', [ClientBackupController::class, 'download'])->name('backups.download');
 
   Route::get('/users', [ClientUserController::class, 'index']);
   Route::get('/user', [ClientUserController::class, 'show']);

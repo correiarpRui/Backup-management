@@ -3,28 +3,30 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Client;
 
 class ClientController extends Controller
 {
+    // public function index(){
+    //     $user = User::with('clients')->where('id', auth()->user()->id)->get();
+
+    //     return view('client.client.index', ['user'=>$user]);
+    // }
+
     public function index(){
-        $sort = request('sort', 'asc');
-        $field = request('field', 'name');
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
 
-        $user = User::with('clients')->where('id', auth()->user()->id)->get();
         
+        if($clients->count() > 1){
+            return view('client.client.index', ['clients'=>$clients]);
+        }
+        return redirect()->route('client.clients.show', $clients[0]->id);
+    }
 
-        dd($user);
-        // $backups = Backup::where('client_id', auth()->user()->id)->orderBy($field, $sort)->get();
-
-        // $client = Client::with('users')->find(auth()->user()->id);
-        return view('client.client.index', ['client'=> $client, 'backups'=>$backups, 'sort'=>$sort, 'field'=>$field]);
+    public function show($id){
+        $client = Client::with('users')->find($id);
+        return view('client.client.show', ['client'=>$client]);
     }
 }
-
-
-//  $backup = Backup::with(['client', 'reports'=>function($query) use ($sort, $field) {
-//             $query->orderBy($field, $sort);
-//         }])->find($id);
