@@ -4,6 +4,7 @@
     <a href="{{ route('client.clients.show', $client->id) }}" class="uppercase font-semibold">{{ $client->name }}</a>
     <a href="{{ route('client.backups', $client->id) }}" class="uppercase font-semibold">Backups</a>
     <a href="/client/events" class="uppercase font-semibold">Events</a>
+    <a href="{{ route('client.users', $client->id) }}" class="uppercase font-semibold">Users</a>
 @endsection
 
 @section('content')
@@ -18,7 +19,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Name</p>
                             <a
-                                href="{{ route('root.backups', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
+                                href="{{ route('client.backups', ['id' => $client->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
                                 @if ($field != 'name')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -45,7 +46,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Description</p>
                             <a
-                                href="{{ route('root.backups', ['sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'description']) }}">
+                                href="{{ route('client.backups', ['id' => $client->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'description']) }}">
                                 @if ($field != 'description')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -90,28 +91,3 @@
         </table>
     </div>
 @endsection
-
-{{-- 
-
-@section('content')
-    <div>
-        <div class="text-bblue text-3xl mx-5 my-3 font-normal ">Backups</div>
-        <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3">
-            @foreach ($backups as $backup)
-                @foreach ($backup->backups as $item)
-                    <div class="flex gap-4">
-                        <p>{{ $item->name }}</p>
-                        <p>{{ $item->token }}</p>
-                        <p>{{ $item->client_id }}</p>
-                        <p>{{ $item->description }}</p>
-                        <p>{{ $item->encryption }}</p>
-                        <p>{{ $item->time }}</p>
-                        <p>{{ $item->repeat }}</p>
-
-                        <a class="text-bblue font-semibold" href="/client/backups/download/{{ $item->id }}">Download</a>
-                    </div>
-                @endforeach
-            @endforeach
-        </div>
-    </div>
-@endsection --}}

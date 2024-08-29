@@ -4,6 +4,7 @@
     <a href="{{ route('client.clients.show', $client->id) }}" class="uppercase font-semibold">{{ $client->name }}</a>
     <a href="{{ route('client.backups', $client->id) }}" class="uppercase font-semibold">Backups</a>
     <a href="/client/events" class="uppercase font-semibold">Events</a>
+    <a href="{{ route('client.users', $client->id) }}" class="uppercase font-semibold">Users</a>
 @endsection
 
 @section('content')
@@ -95,7 +96,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Backup Name</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'name']) }}">
                                 @if ($field != 'name')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -122,7 +123,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Operation</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'operation_name']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'operation_name']) }}">
                                 @if ($field != 'operation_name')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -149,7 +150,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Start</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'begin_time']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'begin_time']) }}">
                                 @if ($field != 'begin_time')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -176,7 +177,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">End</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'end_time']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'end_time']) }}">
                                 @if ($field != 'end_time')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -203,7 +204,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Duration</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'duration']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'duration']) }}">
                                 @if ($field != 'duration')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -230,7 +231,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Warnings</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'warnings']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'warnings']) }}">
                                 @if ($field != 'warnings')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -257,7 +258,7 @@
                         <div class="flex items-center ">
                             <p class="mr-1">Errors</p>
                             <a
-                                href="{{ route('root.backups.show', ['id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'errors']) }}">
+                                href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id, 'sort' => $sort === 'asc' ? 'desc' : 'asc', 'field' => 'errors']) }}">
                                 @if ($field != 'errors')
                                     <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="0.8em"
                                         viewBox="0 0 320 512">
@@ -287,9 +288,10 @@
                     <tr class="even:bg-blgray">
                         <td class="p-2">{{ $event->name }}</td>
                         <td class="p-2">{{ $event->operation_name }}</td>
-                        <td class="p-2">{{ \Carbon\Carbon::parse($event->begin_time)->format('d-m-Y') }}</td>
-                        <td class="p-2">{{ \Carbon\Carbon::parse($event->end_time)->format('d-m-Y') }}</td>
-                        <td class="p-2">{{ \Carbon\CarbonInterval::seconds($event->duration)->cascade()->forHumans() }}
+                        <td class="p-2">{{ \Carbon\Carbon::parse($event->begin_time)->format('d-m-Y h:i A') }}</td>
+                        <td class="p-2">{{ \Carbon\Carbon::parse($event->end_time)->format('d-m-Y h:i A') }}</td>
+                        <td class="p-2">{{ round(\Carbon\Carbon::parse($event->duration)->secondsSinceMidnight()) }}
+                            seconds
                         </td>
                         <td class="p-2">{{ $event->warnings }}</td>
                         <td class="p-2">{{ $event->errors }}</td>
