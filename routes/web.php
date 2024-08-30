@@ -70,10 +70,11 @@ Route::group([
   Route::get('/{clientId}/backups/show/{id}', [ClientBackupController::class, 'show'])->name('backups.show');
   Route::get('/backups/download/{id}', [ClientBackupController::class, 'download'])->name('backups.download');
 
+  Route::get('/{clientId}/events', [ClientEventController::class, 'index'])->name('events');
+
   Route::get('/{id}/users', [ClientUserController::class, 'index'])->name('users');
   Route::get('/{id}/users/create', [ClientUserController::class, 'create'])->name('users.create');
   Route::post('/{clientId}/users/store', [ClientUserController::class, 'store'])->name('users.store');
-
   Route::delete('{clientId}/users/delete/{userId}', [ClientUserController::class, 'destroy'])->name('users.destroy');
 
 
@@ -81,6 +82,6 @@ Route::group([
   Route::get('/user/update', [ClientUserController::class, 'update']);
   Route::patch('/user', [ClientUserController::class, 'patch']);
 
-  Route::get('/events', [ClientEventController::class, 'index']);
+  
 });
 

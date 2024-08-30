@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Client extends Model
 {
@@ -29,6 +30,10 @@ class Client extends Model
     public function backups(): HasMany{
         return $this->hasMany(Backup::class);
     }
+
+    // public function reports(): HasManyThrough{
+    //     return $this->hasManyThrough(Backup::class, Report::class);
+    // }
 
     public function createdBy(): BelongsTo{
         return $this->belongsTo(User::class, 'created_by');
