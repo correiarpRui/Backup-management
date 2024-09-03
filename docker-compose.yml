@@ -35,3 +35,11 @@ services:
             - MINIO_ROOT_USER=root
             - MINIO_ROOT_PASSWORD=password
             - MINIO_DEFAULT_BUCKETS=testbucket
+
+    mailhog:
+        image: "mailhog/mailhog:latest"
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - minionetwork

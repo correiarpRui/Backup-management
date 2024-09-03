@@ -1,12 +1,5 @@
 @extends('layouts.client')
 
-@section('navLinks')
-    <a href="{{ route('client.clients.show', $client->id) }}" class="uppercase font-semibold">{{ $client->name }}</a>
-    <a href="{{ route('client.backups', $client->id) }}" class="uppercase font-semibold">Backups</a>
-    <a href="{{ route('client.events', $client->id) }}" class="uppercase font-semibold">Events</a>
-    <a href="{{ route('client.users', $client->id) }}" class="uppercase font-semibold">Users</a>
-@endsection
-
 @section('content')
     <div class="flex justify-between m-5 items-center">
         <p class="text-bblue text-3xl mx-5 font-normal">Backups</p>

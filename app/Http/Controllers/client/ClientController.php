@@ -7,12 +7,6 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
-    // public function index(){
-    //     $user = User::with('clients')->where('id', auth()->user()->id)->get();
-
-    //     return view('client.client.index', ['user'=>$user]);
-    // }
-
     public function index(){
         $clients = Client::whereHas('users', function ($query){
             return $query->where('user_id', auth()->user()->id);
@@ -26,7 +20,12 @@ class ClientController extends Controller
     }
 
     public function show($id){
-        $client = Client::with('users')->find($id);
-        return view('client.client.show', ['client'=>$client]);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        $user = Client::with('users')->find($id);
+
+        return view('client.client.show', ['client'=>$user, 'clients'=>$clients]);
     }
 }

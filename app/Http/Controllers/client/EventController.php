@@ -13,17 +13,13 @@ class EventController extends Controller
       $sort = request('sort', 'asc');
       $field = request('field', 'name');
 
-      // $clients = Client::withWhereHas('backups.reports', function($query) use($sort, $field){
-      //   $query->orderBy($field, $sort);
-      // })->find($clientId);
-
       $client = Client::with(['backups.reports'=>fn($query)=>$query->orderBy($field, $sort)])->find($clientId);
 
-      // $backups = Backup::with('client')->withWhereHas('reports',  function($query) use ($sort, $field){
-      //   $query->orderBy($field, $sort);
-      // })->where('client_id', $clientId)->get();
+      $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
 
-      return view('client.events.index', ['client'=>$client, 'sort'=>$sort, 'field'=>$field]);
+      return view('client.events.index', ['clients'=>$clients, 'client'=>$client, 'sort'=>$sort, 'field'=>$field]);
     }
 
 

@@ -14,7 +14,10 @@ class UserController extends Controller
         $sort = request('sort', 'asc');
         $field = request('field', 'name');
         $client=Client::with(['users'=> fn ($query)=> $query->orderBy($field, $sort)])->find($clientId);
-        return view('client.users.index', ['client'=>$client, 'sort'=>$sort, 'field'=>$field]);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+        return view('client.users.index', ['clients'=>$clients, 'client'=>$client, 'sort'=>$sort, 'field'=>$field]);
     }
 
     public function show(){
@@ -25,7 +28,10 @@ class UserController extends Controller
 
     public function create($clientId){
         $client = Client::find($clientId);
-        return view('client.users.create', ['client'=>$client]);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+        return view('client.users.create', ['client'=>$client, 'clients'=>$clients]);
     }
 
     public function store(StoreUserRequest $request, $clientId){ 

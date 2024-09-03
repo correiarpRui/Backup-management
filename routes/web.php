@@ -9,6 +9,8 @@ use App\Http\Controllers\root\EventController as RootEventController;
 use App\Http\Controllers\client\EventController as ClientEventController;
 use App\Http\Controllers\root\UserController as RootUserController;
 use App\Http\Controllers\client\UserController as ClientUserController;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
@@ -81,7 +83,9 @@ Route::group([
   Route::get('/user', [ClientUserController::class, 'show']);
   Route::get('/user/update', [ClientUserController::class, 'update']);
   Route::patch('/user', [ClientUserController::class, 'patch']);
-
-  
 });
 
+ Route::get('/test', function (){
+    Mail::to('tom@world.com')->send(new TestMail());
+    return 'da';
+  });

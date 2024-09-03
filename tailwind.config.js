@@ -15,6 +15,9 @@ export default {
                 bgray: "#6e757a",
                 bgreen: "#018505",
             },
+            boxShadow: {
+                dropMenu: "4px 4px 6px -1px rgb(0 0 0 / 0.1)",
+            },
         },
     },
     plugins: [],

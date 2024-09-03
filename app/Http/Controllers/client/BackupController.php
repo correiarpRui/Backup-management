@@ -14,14 +14,22 @@ class BackupController extends Controller
 
         $backups = Backup::where('client_id', $clientId)->orderBy($field, $sort)->get();
 
-        $client=Client::find($clientId); //diferent way?
+        $client=Client::find($clientId);
 
-        return view('client.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field, 'client'=>$client]);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        return view('client.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field, 'client'=>$client, 'clients'=>$clients]);
     }
 
     public function show($clientId, $id){
 
-        $client=Client::find($clientId); //diferent way?
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        $client=Client::find($clientId); 
 
         $sort = request('sort', 'asc');
         $field = request('field', 'name');
@@ -30,7 +38,7 @@ class BackupController extends Controller
             $query->orderBy($field, $sort);
         }])->find($id);
 
-        return view('client.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field, 'client'=>$client]);
+        return view('client.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field, 'clients'=>$clients, 'client'=>$client]);
     }
 
     public function download($id){
