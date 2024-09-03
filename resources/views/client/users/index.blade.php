@@ -102,7 +102,7 @@
                         <td class="p-2">{{ $user->email }}</td>
                         <td class="p-2">{{ $user->role }}</td>
                         <td class="p-2">
-                            @if ($user->role !== 'root')
+                            @if ($user->role !== 'admin')
                                 <div class="flex gap-2">
                                     <div class="flex gap-2 text-bblue font-semibold">
                                         <form

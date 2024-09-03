@@ -5,6 +5,8 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Backup;
 use App\Models\Client;
+use App\Services\SendEmail;
+use Illuminate\Http\Request;
 
 class BackupController extends Controller
 {
@@ -41,11 +43,38 @@ class BackupController extends Controller
         return view('client.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field, 'clients'=>$clients, 'client'=>$client]);
     }
 
-    public function download($id){
-        $backup = Backup::findOrFail($id);
-        $filepath = public_path("storage/{$backup->token}.json");
-        return response()->download($filepath);
+    public function restore($clientId, $backupId){
+
+        $client = Client::find($clientId);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        $backup = Backup::with('reports')->find($backupId);
+        return view('client.backup.restore', ['backup'=>$backup, 'clients'=>$clients, 'client'=>$client]);
     }
 
+    public function filter($clientId, $backupId, Request $request){
+
+        $client = Client::find($clientId);
+        $clients = Client::whereHas('users', function ($query){
+            return $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        $backup = Backup::with(['reports'=>function ($query) use ($request){
+            $query->whereDate('begin_time', '>=', $request->startDate)
+                ->whereDate('end_time', '<=', $request->endDate)
+                ->get();
+        }])->find($backupId);
+        return view('client.backup.restore', ['backup'=>$backup, 'clients'=>$clients, 'client'=>$client]);
+    }
+
+    public function email(){
+        $data=['name'=>auth()->user()->name, 'email'=>auth()->user()->email, 'backupName'=>Request('backupName'), 'eventName'=>Request('eventName'), 'eventToken'=>Request('eventToken')];
+
+        (new SendEmail)->createEmail($data);
+
+        return redirect()->back();
+    }
     
 }

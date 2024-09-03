@@ -65,12 +65,13 @@ Route::group([
   'namespace'=>'client',
   'middleware'=>['auth']
 ], function(){
-  Route::get('/client', [ClientController::class, 'index'])->name('clients');
   Route::get('/client/show/{id}', [ClientController::class, 'show'])->name('clients.show');
 
   Route::get('/{id}/backups', [ClientBackupController::class, 'index'])->name('backups');
   Route::get('/{clientId}/backups/show/{id}', [ClientBackupController::class, 'show'])->name('backups.show');
-  Route::get('/backups/download/{id}', [ClientBackupController::class, 'download'])->name('backups.download');
+  Route::get('/{clientId}/backups/restore/{id}', [ClientBackupController::class, 'restore'])->name('backups.restore');
+  Route::get('/{clientId}/backups/restore/{id}/filter', [ClientBackupController::class, 'filter'])->name('backups.filter');
+  Route::get('/restore', [ClientBackupController::class, 'email'])->name('backups.email');
 
   Route::get('/{clientId}/events', [ClientEventController::class, 'index'])->name('events');
 
@@ -86,6 +87,7 @@ Route::group([
 });
 
  Route::get('/test', function (){
-    Mail::to('tom@world.com')->send(new TestMail());
+    $data=['name'=>auth()->user()->name, 'email'=>auth()->user()->email, 'backupName'=>Request('backupName'), 'eventName'=>Request('eventName'), 'eventToken'=>Request('eventToken')];
+    Mail::to('root@world.com')->send(new TestMail($data));
     return 'da';
-  });
+  })->name('test');

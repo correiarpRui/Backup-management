@@ -34,7 +34,6 @@
                 <a href="/client/user" class="uppercase font-semibold text-base">{{ auth()->user()->name }}
                     {{ auth()->user()->role }}</a>
             @endauth
-
             <a href="/logout" class="uppercase font-semibold text-base">Logout</a>
         </div>
         {{-- $client --}}

@@ -9,17 +9,27 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Http\Request;
 
 class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $name;
+    public $email;
+    public $backupName;
+    public $eventName;
+    public $eventToken;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->name = $data['name'];
+        $this->email =$data['email'];
+        $this->backupName = $data['backupName'];
+        $this->eventName = $data['eventName'];
+        $this->eventToken = $data['eventToken'];
     }
 
     /**
@@ -28,8 +38,8 @@ class TestMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('test1@world.com', 'test1'),
-            subject: 'Test Mail',
+            from: new Address($this->email, $this->name),
+            subject: 'Restore request',
         );
     }
 
@@ -40,6 +50,11 @@ class TestMail extends Mailable
     {
         return new Content(
             view: 'mail',
+            with:[
+                'backupName'=>$this->backupName,
+                'eventName'=>$this->eventName,
+                'eventToken'=>$this->eventToken
+            ]
         );
     }
 

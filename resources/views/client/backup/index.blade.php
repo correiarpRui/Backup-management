@@ -75,7 +75,7 @@
                                 <a href="{{ route('client.backups.show', ['clientId' => $client->id, 'id' => $backup->id]) }}"
                                     class="text-bblue font-semibold">View</a>
                                 <a class="text-bblue font-semibold"
-                                    href="{{ route('client.backups.download', $backup->id) }}">Download</a>
+                                    href="{{ route('client.backups.restore', ['id' => $backup->id, 'clientId' => $client->id]) }}">Restore</a>
                             </div>
                         </td>
                     </tr>
