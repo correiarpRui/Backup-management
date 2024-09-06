@@ -22,6 +22,7 @@ class ApiEventRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'Extra.backup-id'=>['required'],
             'Extra.backup-name'=>['required'],
             'Extra.OperationName'=>['required'],
             'Data.BeginTime'=>['required'],

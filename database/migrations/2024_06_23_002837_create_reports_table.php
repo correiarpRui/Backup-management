@@ -16,12 +16,14 @@ return new class extends Migration
             $table->foreignId('backup_id')->constrained()->cascadeOnDelete();
             $table->string('token');
             $table->string('name');
+            $table->string('duplicati_index');
             $table->string('operation_name');
             $table->string('begin_time');
             $table->string('end_time');
             $table->string('duration');
             $table->string('warnings');
             $table->string('errors');
+            $table->json('log');
             $table->timestamps();
         });
     }   

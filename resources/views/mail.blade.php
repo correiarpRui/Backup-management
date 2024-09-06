@@ -1,6 +1,6 @@
 <div>
     <p>
-        Request restore of backup {{ $backupName }}, event {{ $eventName }} with token {{ $eventToken }}.
+        Request restore of backup {{ $eventId }}.
     </p>
     <div>
         <p>{{ $name }}</p>

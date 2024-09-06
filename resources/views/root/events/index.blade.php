@@ -198,6 +198,7 @@
                             </a>
                         </div>
                     </td>
+                    <td class="p-2">Action</td>
                 </tr>
             </thead>
             <tbody>
@@ -212,6 +213,10 @@
                         </td>
                         <td class="p-2">{{ $event->warnings }}</td>
                         <td class="p-2">{{ $event->errors }}</td>
+                        <td class="p-2">
+                            <a href="{{ route('root.events.show', $event->id) }}"
+                                class="text-bblue font-semibold">View</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

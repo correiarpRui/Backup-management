@@ -5,6 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Backup;
 use App\Models\Client;
+use App\Models\Report;
 use App\Services\SendEmail;
 use Illuminate\Http\Request;
 
@@ -69,8 +70,11 @@ class BackupController extends Controller
         return view('client.backup.restore', ['backup'=>$backup, 'clients'=>$clients, 'client'=>$client]);
     }
 
-    public function email(){
-        $data=['name'=>auth()->user()->name, 'email'=>auth()->user()->email, 'backupName'=>Request('backupName'), 'eventName'=>Request('eventName'), 'eventToken'=>Request('eventToken')];
+    public function email($id){
+
+        $event = Report::find($id);
+
+        $data=['name'=>auth()->user()->name, 'email'=>auth()->user()->email, 'eventId'=> $event->id];
 
         (new SendEmail)->createEmail($data);
 

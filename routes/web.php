@@ -56,7 +56,7 @@ Route::group([
   Route::delete('/users/destroy/{id}', [RootUserController::class, 'destroy'])->name('users.destroy');
 
   Route::get('/events', [RootEventController::class, 'index'])->name('events');
-
+  Route::get('/events/show/{id}', [RootEventController::class, 'show'])->name('events.show');
 });
 
 Route::group([
@@ -71,7 +71,7 @@ Route::group([
   Route::get('/{clientId}/backups/show/{id}', [ClientBackupController::class, 'show'])->name('backups.show');
   Route::get('/{clientId}/backups/restore/{id}', [ClientBackupController::class, 'restore'])->name('backups.restore');
   Route::get('/{clientId}/backups/restore/{id}/filter', [ClientBackupController::class, 'filter'])->name('backups.filter');
-  Route::get('/restore', [ClientBackupController::class, 'email'])->name('backups.email');
+  Route::get('/restore/{id}', [ClientBackupController::class, 'email'])->name('backups.email');
 
   Route::get('/{clientId}/events', [ClientEventController::class, 'index'])->name('events');
 
@@ -86,8 +86,3 @@ Route::group([
   Route::patch('/user', [ClientUserController::class, 'patch']);
 });
 
- Route::get('/test', function (){
-    $data=['name'=>auth()->user()->name, 'email'=>auth()->user()->email, 'backupName'=>Request('backupName'), 'eventName'=>Request('eventName'), 'eventToken'=>Request('eventToken')];
-    Mail::to('root@world.com')->send(new TestMail($data));
-    return 'da';
-  })->name('test');

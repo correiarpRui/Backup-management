@@ -17,9 +17,8 @@ class TestMail extends Mailable
 
     public $name;
     public $email;
-    public $backupName;
-    public $eventName;
-    public $eventToken;
+    public $eventId;
+    
     /**
      * Create a new message instance.
      */
@@ -27,9 +26,7 @@ class TestMail extends Mailable
     {
         $this->name = $data['name'];
         $this->email =$data['email'];
-        $this->backupName = $data['backupName'];
-        $this->eventName = $data['eventName'];
-        $this->eventToken = $data['eventToken'];
+        $this->eventId = $data['eventId'];
     }
 
     /**
@@ -51,9 +48,7 @@ class TestMail extends Mailable
         return new Content(
             view: 'mail',
             with:[
-                'backupName'=>$this->backupName,
-                'eventName'=>$this->eventName,
-                'eventToken'=>$this->eventToken
+                'backupName'=>$this->eventId,
             ]
         );
     }

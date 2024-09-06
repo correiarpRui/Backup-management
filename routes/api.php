@@ -7,4 +7,5 @@ use Illuminate\Http\Client\Request;
 
 
 Route::post('data/{token}/{id}', [ApiController::class, 'receiveData']);
+Route::post('dat', [ApiController::class, 'test']);
 

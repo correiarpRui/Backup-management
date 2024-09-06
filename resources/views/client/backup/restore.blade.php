@@ -55,7 +55,7 @@
                         <td class="p-2">{{ \Carbon\Carbon::parse($event->end_time)->format('d-m-Y h:i A') }}
                         </td>
                         <td class="p-2">
-                            <a href="{{ route('client.backups.email', ['backupName' => $backup->name, 'eventName' => $event->name, 'eventToken' => $event->token]) }}"
+                            <a href="{{ route('client.backups.email', $event->id) }}"
                                 class="text-bblue font-semibold">Restore</a>
                         </td>
                 @endforeach
