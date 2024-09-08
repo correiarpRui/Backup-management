@@ -19,18 +19,10 @@ class BackupController extends Controller
 
         $client=Client::find($clientId);
 
-        $clients = Client::whereHas('users', function ($query){
-            return $query->where('user_id', auth()->user()->id);
-        })->get();
-
-        return view('client.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field, 'client'=>$client, 'clients'=>$clients]);
+        return view('client.backup.index', ['backups'=>$backups, 'sort'=>$sort, 'field'=>$field, 'client'=>$client]);
     }
 
     public function show($clientId, $id){
-
-        $clients = Client::whereHas('users', function ($query){
-            return $query->where('user_id', auth()->user()->id);
-        })->get();
 
         $client=Client::find($clientId); 
 
@@ -41,33 +33,27 @@ class BackupController extends Controller
             $query->orderBy($field, $sort);
         }])->find($id);
 
-        return view('client.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field, 'clients'=>$clients, 'client'=>$client]);
+        return view('client.backup.show', ['backup'=>$backup, 'sort'=>$sort, 'field'=>$field, 'client'=>$client]);
     }
 
     public function restore($clientId, $backupId){
 
         $client = Client::find($clientId);
-        $clients = Client::whereHas('users', function ($query){
-            return $query->where('user_id', auth()->user()->id);
-        })->get();
 
         $backup = Backup::with('reports')->find($backupId);
-        return view('client.backup.restore', ['backup'=>$backup, 'clients'=>$clients, 'client'=>$client]);
+        return view('client.backup.restore', ['backup'=>$backup, 'client'=>$client]);
     }
 
     public function filter($clientId, $backupId, Request $request){
 
-        $client = Client::find($clientId);
-        $clients = Client::whereHas('users', function ($query){
-            return $query->where('user_id', auth()->user()->id);
-        })->get();
+        $client = Client::find($clientId);    
 
         $backup = Backup::with(['reports'=>function ($query) use ($request){
             $query->whereDate('begin_time', '>=', $request->startDate)
                 ->whereDate('end_time', '<=', $request->endDate)
                 ->get();
         }])->find($backupId);
-        return view('client.backup.restore', ['backup'=>$backup, 'clients'=>$clients, 'client'=>$client]);
+        return view('client.backup.restore', ['backup'=>$backup, 'client'=>$client]);
     }
 
     public function email($id){

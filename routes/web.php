@@ -9,9 +9,9 @@ use App\Http\Controllers\root\EventController as RootEventController;
 use App\Http\Controllers\client\EventController as ClientEventController;
 use App\Http\Controllers\root\UserController as RootUserController;
 use App\Http\Controllers\client\UserController as ClientUserController;
-use App\Mail\TestMail;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Middleware\Client;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -75,10 +75,10 @@ Route::group([
 
   Route::get('/{clientId}/events', [ClientEventController::class, 'index'])->name('events');
 
-  Route::get('/{id}/users', [ClientUserController::class, 'index'])->name('users');
-  Route::get('/{id}/users/create', [ClientUserController::class, 'create'])->name('users.create');
-  Route::post('/{clientId}/users/store', [ClientUserController::class, 'store'])->name('users.store');
-  Route::delete('{clientId}/users/delete/{userId}', [ClientUserController::class, 'destroy'])->name('users.destroy');
+  Route::get('/{id}/users', [ClientUserController::class, 'index'])->middleware(Client::class)->name('users');
+  Route::get('/{id}/users/create', [ClientUserController::class, 'create'])->middleware(Client::class)->name('users.create');
+  Route::post('/{clientId}/users/store', [ClientUserController::class, 'store'])->middleware(Client::class)->name('users.store');
+  Route::delete('{clientId}/users/delete/{userId}', [ClientUserController::class, 'destroy'])->middleware(Client::class)->name('users.destroy');
 
 
   Route::get('/user', [ClientUserController::class, 'show']);

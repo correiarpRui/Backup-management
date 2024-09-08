@@ -4,7 +4,6 @@
     <div class="flex justify-between m-5 items-center">
         <p class="text-bblue text-3xl mx-5 font-normal">Client Details</p>
     </div>
-
     <div class="bg-white mx-5 shadow-md shadow-gray-300 rounded-md my-3 flex flex-col gap-2 py-2 px-5">
         <div>
             <p class="font-semibold text-bgray text-l ">Client Name: </p>
@@ -32,8 +31,10 @@
     <div class="flex justify-between m-5 items-center">
         <p class="text-bblue text-3xl mx-5 font-normal">Users</p>
         <div class="flex gap-3">
-            <a href="{{ route('client.users.create', $client->id) }}"
-                class=" bg-bblue text-white  p-3 mr-5 rounded-md w-auto inline-block">Add User</a>
+            @if ($client->role === 'admin')
+                <a href="{{ route('client.users.create', $client->id) }}"
+                    class=" bg-bblue text-white  p-3 mr-5 rounded-md w-auto inline-block">Add User</a>
+            @endif
         </div>
     </div>
 

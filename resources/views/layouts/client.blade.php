@@ -17,7 +17,9 @@
             <a href="{{ route('client.clients.show', $client->id) }}" class="uppercase font-semibold">Client</a>
             <a href="{{ route('client.backups', $client->id) }}" class="uppercase font-semibold">Backups</a>
             <a href="{{ route('client.events', $client->id) }}" class="uppercase font-semibold">Events</a>
-            <a href="{{ route('client.users', $client->id) }}" class="uppercase font-semibold">Users</a>
+            @if ($client->role === 'admin')
+                <a href="{{ route('client.users', $client->id) }}" class="uppercase font-semibold">Users</a>
+            @endif
         </div>
         <div class="flex gap-9 text-base ">
             <div class="uppercase font-semibold group rounded-md w-52 relative pl-3 border">
@@ -25,7 +27,7 @@
                 <div
                     class="absolute hidden group-hover:block pb-4  bg-white rounded-md w-[100%] border-borderColor border right-0 pl-3">
                     <div>
-                        @foreach ($clients as $userClients)
+                        @foreach (session()->get('clients') as $userClients)
                             <a href="{{ route('client.clients.show', $userClients->id) }}"
                                 class="uppercase font-semibold block mt-3">{{ $userClients->name }}</a>
                         @endforeach

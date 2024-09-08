@@ -8,18 +8,22 @@ use App\Models\Client;
 class ClientController extends Controller
 {
     public function show($id){
+        
         $clients = Client::whereHas('users', function ($query){
             return $query->where('user_id', auth()->user()->id);
         })->get();
+
+        session(['clients'=>$clients]);
         
         if($id == 0){
             $user = Client::whereHas('users', function ($query){
             return $query->where('user_id', auth()->user()->id);
             })->first();
+          
         } else{
             $user = Client::with('users')->find($id);    
         }
 
-        return view('client.client.show', ['client'=>$user, 'clients'=>$clients]);
+        return view('client.client.show', ['client'=>$user]);
     }
 }

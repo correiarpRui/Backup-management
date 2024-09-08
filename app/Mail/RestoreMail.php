@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Http\Request;
 
-class TestMail extends Mailable
+class RestoreMail extends Mailable
 {
     use Queueable, SerializesModels;
 
